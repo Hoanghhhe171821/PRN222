@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5BTQrVAiiRc=",
+  "dgSpecHash": "c6F9FtDxDSY=",
   "success": true,
-  "projectFilePath": "C:\\1.kaiz\\TaiLieu\\PRN222\\AssignmentPRN222\\AssignmentPRN222.csproj",
+  "projectFilePath": "C:\\Users\\rimok\\OneDrive\\Documents\\GitHub\\PRN222\\AssignmentPRN222.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rimok\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\rimok\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\1.kaiz\\TaiLieu\\PRN222\\AssignmentPRN222\\AssignmentPRN222.csproj": {}
+    "C:\\Users\\rimok\\OneDrive\\Documents\\GitHub\\PRN222\\AssignmentPRN222.csproj": {}
   },
   "projects": {
-    "C:\\1.kaiz\\TaiLieu\\PRN222\\AssignmentPRN222\\AssignmentPRN222.csproj": {
+    "C:\\Users\\rimok\\OneDrive\\Documents\\GitHub\\PRN222\\AssignmentPRN222.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\1.kaiz\\TaiLieu\\PRN222\\AssignmentPRN222\\AssignmentPRN222.csproj",
+        "projectUniqueName": "C:\\Users\\rimok\\OneDrive\\Documents\\GitHub\\PRN222\\AssignmentPRN222.csproj",
         "projectName": "AssignmentPRN222",
-        "projectPath": "C:\\1.kaiz\\TaiLieu\\PRN222\\AssignmentPRN222\\AssignmentPRN222.csproj",
+        "projectPath": "C:\\Users\\rimok\\OneDrive\\Documents\\GitHub\\PRN222\\AssignmentPRN222.csproj",
         "packagesPath": "C:\\Users\\rimok\\.nuget\\packages\\",
-        "outputPath": "C:\\1.kaiz\\TaiLieu\\PRN222\\AssignmentPRN222\\obj\\",
+        "outputPath": "C:\\Users\\rimok\\OneDrive\\Documents\\GitHub\\PRN222\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
