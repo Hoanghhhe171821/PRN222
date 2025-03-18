@@ -1,0 +1,29 @@
+﻿@page
+@model Project_NH.Areas.Identity.Pages.Account.Manage.HistoryModel
+@{
+}
+<h1>History Buy</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>OrderId</th>
+            <th>Price</th>
+            <th>MovieName</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.orders)
+        {
+            <tr>
+                <th>@order.Id</th>
+                <td>@order.PriceFrist</td>
+                @if (order.SeatBookings != null && order.SeatBookings.Any())
+                {
+                    <td>@order.SeatBookings.First().ShowTime.Movie.Name</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
