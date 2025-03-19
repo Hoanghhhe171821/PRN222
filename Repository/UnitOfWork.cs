@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Project_NH.Interfaces;
+using AssignmentPRN222.Interfaces;
+using AssignmentPRN222.Models;
 
-namespace Project_NH.Repository
+namespace AssignmentPRN222.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly AppicationDbcontext _context;
+        private readonly ProjectPrn222Context _context;
         public IProvince Provinces { get; private set; }
         public ICinema Cinemas { get; private set; }
         public IMovie Movies { get; private set; }
@@ -15,7 +16,7 @@ namespace Project_NH.Repository
         public ISeatBooking SeatBookings { get; private set; }
         public IDiscount Discounts { get; private set; }
         public IOrder Orders { get; private set; }
-        public UnitOfWork(AppicationDbcontext context, IProvince province,ICinema cinema,
+        public UnitOfWork(ProjectPrn222Context context, IProvince province,ICinema cinema,
             IMovie movie,ISeat seat,IShowTime showTime,IRoom room,ISeatBooking seatBooking,IDiscount discount,
             IOrder order)
         {

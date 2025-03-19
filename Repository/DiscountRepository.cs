@@ -1,12 +1,12 @@
-﻿using Project_NH.Interfaces;
-using Project_NH.Models;
+﻿using AssignmentPRN222.Interfaces;
+using AssignmentPRN222.Models;
 
-namespace Project_NH.Repository
+namespace AssignmentPRN222.Repository
 {
     public class DiscountRepository : IDiscount
     {
-        protected readonly AppicationDbcontext _dbcontext;
-        public DiscountRepository(AppicationDbcontext dbcontext)
+        protected readonly ProjectPrn222Context _dbcontext;
+        public DiscountRepository(ProjectPrn222Context dbcontext)
         {
             _dbcontext = dbcontext;
         }

@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Project_NH.Interfaces;
-using Project_NH.Models;
+using AssignmentPRN222.Interfaces;
+using AssignmentPRN222.Models;
 
-namespace Project_NH.Repository
+namespace AssignmentPRN222.Repository
 {
     public class MovieRepository : IMovie
     {
-        protected readonly AppicationDbcontext _dbcontext;
-        public MovieRepository(AppicationDbcontext dbcontext)
+        protected readonly ProjectPrn222Context _dbcontext;
+        public MovieRepository(ProjectPrn222Context dbcontext)
         {
             _dbcontext = dbcontext;
         }
@@ -27,7 +27,7 @@ namespace Project_NH.Repository
 
         public List<int> getMovieByDayandCinema(DateOnly date, int cinemaid)
         {
-            var listMovie=_dbcontext.ShowTime.Where(x=>x.DateShowTime==date&&x.CinemaId==cinemaid  ).Select(p=>p.MovieId).Distinct().ToList();
+            var listMovie=_dbcontext.ShowTimes.Where(x=>x.DateShowTime==date&&x.CinemaId==cinemaid  ).Select(p=>p.MovieId).Distinct().ToList();
             return listMovie;
         }
 

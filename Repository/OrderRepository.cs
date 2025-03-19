@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Project_NH.Interfaces;
-using Project_NH.Models;
+using AssignmentPRN222.Interfaces;
+using AssignmentPRN222.Models;
 
-namespace Project_NH.Repository
+namespace AssignmentPRN222.Repository
 {
     public class OrderRepository : IOrder
     {
-        protected readonly AppicationDbcontext _dbcontext;
-        public OrderRepository(AppicationDbcontext dbcontext)
+        protected readonly ProjectPrn222Context _dbcontext;
+        public OrderRepository(ProjectPrn222Context dbcontext)
         {
             _dbcontext = dbcontext;
         }
@@ -18,7 +18,7 @@ namespace Project_NH.Repository
 
         public List<Order> GetOrderByUserId(string userId)
         {
-            List<Order> order = _dbcontext.Orders.Include(x=>x.SeatBookings).ThenInclude(st => st.ShowTime).ThenInclude(m=>m.Movie).Where(x=>x.UserId.Equals(userId)).ToList();
+            List<Order> order = _dbcontext.Orders.Include(x=>x.SeatsBookings).ThenInclude(st => st.ShowTime).ThenInclude(m=>m.Movie).Where(x=>x.UserId.Equals(userId)).ToList();
             if (order.Count > 0) { 
                 return order;
             }

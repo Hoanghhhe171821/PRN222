@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Project_NH.Interfaces;
-using Project_NH.Models;
+using AssignmentPRN222.Interfaces;
+using AssignmentPRN222.Models;
 
-namespace Project_NH.Repository
+namespace AssignmentPRN222.Repository
 {
     public class CinemaRepository : ICinema
     {
-        protected readonly AppicationDbcontext _dbcontext;
-        public CinemaRepository(AppicationDbcontext dbcontext)
+        protected readonly ProjectPrn222Context _dbcontext;
+        public CinemaRepository(ProjectPrn222Context dbcontext)
         {
             _dbcontext = dbcontext;
         }
@@ -33,13 +33,13 @@ namespace Project_NH.Repository
         public void DeleteSoft(int id)
         {
             var cinema=_dbcontext.Cinemas.Find(id);
-            cinema.isDelete = true;
+            cinema.IsDelete = true;
             _dbcontext.Update(cinema);
         }
 
         public List<Cinema> getAllCinema(int provinceId,string text)
         {
-            return _dbcontext.Cinemas.Where(x=>!x.isDelete && (x.ProvinceId == provinceId || provinceId == 0) && x.Name.Contains(text)).Include(x=>x.Province).ToList();
+            return _dbcontext.Cinemas.Where(x=>!x.IsDelete && (x.ProvinceId == provinceId || provinceId == 0) && x.Name.Contains(text)).Include(x=>x.Province).ToList();
         }
 
         public Cinema getCinema(int id)
@@ -49,7 +49,7 @@ namespace Project_NH.Repository
 
         public List<Cinema> getCinemaByIdProvince(int provinceId)
         {
-            return _dbcontext.Cinemas.Where(x => x.ProvinceId == provinceId&& !x.isDelete).ToList();
+            return _dbcontext.Cinemas.Where(x => x.ProvinceId == provinceId&& !x.IsDelete).ToList();
         }
 
         public void Update(Cinema cinema)

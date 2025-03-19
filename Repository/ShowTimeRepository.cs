@@ -1,30 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Project_NH.Interfaces;
-using Project_NH.Models;
+using AssignmentPRN222.Interfaces;
+using AssignmentPRN222.Models;
 
-namespace Project_NH.Repository
+namespace AssignmentPRN222.Repository
 {
     public class ShowTimeRepository : IShowTime
     {
-        protected readonly AppicationDbcontext _dbcontext;
-        public ShowTimeRepository(AppicationDbcontext dbcontext)
+        protected readonly ProjectPrn222Context _dbcontext;
+        public ShowTimeRepository(ProjectPrn222Context dbcontext)
         {
             _dbcontext = dbcontext;
         }
         public void Create(ShowTime showTime)
         {
-            _dbcontext.ShowTime.Add(showTime);
+            _dbcontext.ShowTimes.Add(showTime);
         }
 
         public void DeleteShowTime(int showTimeId)
         {
-            var showTime=_dbcontext.ShowTime.Find(showTimeId);
-            _dbcontext.ShowTime.Remove(showTime);
+            var showTime=_dbcontext.ShowTimes.Find(showTimeId);
+            _dbcontext.ShowTimes.Remove(showTime);
         }
 
         public List<ShowTime> GetAll(int movieId,int cinemaId,int roomId)
         {
-            return _dbcontext.ShowTime.Where(x=>(x.MovieId==movieId||movieId==0)&&(x.CinemaId==cinemaId||cinemaId==0)&&(x.RoomId==roomId||roomId==0))
+            return _dbcontext.ShowTimes.Where(x=>(x.MovieId==movieId||movieId==0)&&(x.CinemaId==cinemaId||cinemaId==0)&&(x.RoomId==roomId||roomId==0))
                 .Include(x => x.Movie).OrderByDescending(x=>x.DateShowTime).ToList();
         }
 
@@ -45,7 +45,7 @@ namespace Project_NH.Repository
 
         public ShowTime GetShowTimeById(int id)
         {
-            return _dbcontext.ShowTime.Include(x=>x.Movie).FirstOrDefault(x=>x.Id==id);
+            return _dbcontext.ShowTimes.Include(x=>x.Movie).FirstOrDefault(x=>x.Id==id);
         }
 
         public bool IsSetting(int showTimeId,DateOnly dateShow, TimeSpan timeStart, TimeSpan timeEnd, int RoomId)
@@ -81,7 +81,7 @@ namespace Project_NH.Repository
 
         public void UpdateShowTime(ShowTime showTime)
         {
-            _dbcontext.ShowTime.Update(showTime);
+            _dbcontext.ShowTimes.Update(showTime);
         }
     }
 }
