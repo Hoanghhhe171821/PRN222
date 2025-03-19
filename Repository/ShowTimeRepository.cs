@@ -30,15 +30,16 @@ namespace AssignmentPRN222.Repository
 
         public List<ShowTime> GetShowTimeByDateandCinemaandMovie(DateOnly date, int cinemaid, int movieId)
         {
-            TimeSpan timeSpan = DateTime.Now.TimeOfDay;
-            var query = _dbcontext.ShowTime
-                .Where(x => x.DateShowTime == date && x.CinemaId == cinemaid && x.MovieId == movieId);
-            if (date == DateOnly.FromDateTime(DateTime.Today))
-            {
-                query = query.Where(x => x.StartTime > timeSpan);
-            }
-            query = query.OrderBy(x => x.StartTime);
-            return query.ToList();
+            //TimeSpan timeSpan = DateTime.Now.TimeOfDay;
+            //var query = _dbcontext.ShowTime
+            //    .Where(x => x.DateShowTime == date && x.CinemaId == cinemaid && x.MovieId == movieId);
+            //if (date == DateOnly.FromDateTime(DateTime.Today))
+            //{
+            //    query = query.Where(x => x.StartTime > timeSpan);
+            //}
+            //query = query.OrderBy(x => x.StartTime);
+            //return query.ToList();
+            return null;
         }
 
  
@@ -50,33 +51,34 @@ namespace AssignmentPRN222.Repository
 
         public bool IsSetting(int showTimeId,DateOnly dateShow, TimeSpan timeStart, TimeSpan timeEnd, int RoomId)
         {
-            bool check = true;
-            var listShowtime = _dbcontext.ShowTime.Where(x => x.RoomId == RoomId && x.DateShowTime == dateShow &&x.Id != showTimeId).ToList();
-            foreach (var item in listShowtime)
-            {
-                if (timeStart <= item.StartTime && timeEnd >= item.StartTime)
-                {
-                    check = false;
-                    break;
-                }else if (timeEnd >= item.EndTime && timeStart <= item.EndTime)
-                {
-                    check = false; break;
-                }else if(timeStart>=item.StartTime && timeStart <= item.EndTime&&timeEnd>=item.StartTime&&timeEnd<=item.EndTime)
-                {
-                    check = false; break;
-                }
+            //bool check = true;
+            //var listShowtime = _dbcontext.ShowTime.Where(x => x.RoomId == RoomId && x.DateShowTime == dateShow &&x.Id != showTimeId).ToList();
+            //foreach (var item in listShowtime)
+            //{
+            //    if (timeStart <= item.StartTime && timeEnd >= item.StartTime)
+            //    {
+            //        check = false;
+            //        break;
+            //    }else if (timeEnd >= item.EndTime && timeStart <= item.EndTime)
+            //    {
+            //        check = false; break;
+            //    }else if(timeStart>=item.StartTime && timeStart <= item.EndTime&&timeEnd>=item.StartTime&&timeEnd<=item.EndTime)
+            //    {
+            //        check = false; break;
+            //    }
 
-            }
-            return check;
+            //}
+            //return check;
+            return true;
         }
 
   
 
         public void UpdateisBooked(int showTimeId)
         {
-            var showTime=_dbcontext.ShowTime.Find(showTimeId);
-            showTime.isBooked = true;
-            _dbcontext.Update(showTime);
+            //var showTime=_dbcontext.ShowTime.Find(showTimeId);
+            //showTime.isBooked = true;
+            //_dbcontext.Update(showTime);
         }
 
         public void UpdateShowTime(ShowTime showTime)
