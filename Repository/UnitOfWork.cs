@@ -1,0 +1,44 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Project_NH.Interfaces;
+
+namespace Project_NH.Repository
+{
+    public class UnitOfWork : IUnitOfWork
+    {
+        private readonly AppicationDbcontext _context;
+        public IProvince Provinces { get; private set; }
+        public ICinema Cinemas { get; private set; }
+        public IMovie Movies { get; private set; }
+        public ISeat Seats { get; private set; }
+        public IShowTime ShowTimes { get; private set; }    
+        public IRoom Rooms { get; private set; }
+        public ISeatBooking SeatBookings { get; private set; }
+        public IDiscount Discounts { get; private set; }
+        public IOrder Orders { get; private set; }
+        public UnitOfWork(AppicationDbcontext context, IProvince province,ICinema cinema,
+            IMovie movie,ISeat seat,IShowTime showTime,IRoom room,ISeatBooking seatBooking,IDiscount discount,
+            IOrder order)
+        {
+            _context = context;
+            Provinces = province;
+            Cinemas = cinema;
+            Movies = movie;
+            Seats = seat;
+            ShowTimes = showTime;
+            Rooms = room;
+            SeatBookings = seatBooking;
+            Discounts = discount;
+            Orders = order;
+        }
+
+
+        public int Complete()
+        {
+            return _context.SaveChanges();
+        }
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
+    }
+}
