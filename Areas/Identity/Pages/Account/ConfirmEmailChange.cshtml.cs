@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using AssignmentPRN222.Models;
 
-namespace Project_NH.Areas.Identity.Pages.Account
+namespace AssignmentPRN222.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailChangeModel : PageModel
     {
