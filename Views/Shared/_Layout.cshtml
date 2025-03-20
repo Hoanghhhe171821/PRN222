@@ -14,37 +14,37 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WibuCinema</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    🎬 <span class="brand-name">WibuCinema</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Province" asp-action="Index">All Cinema</a>
+                            <a class="nav-link" asp-area="" asp-controller="Province" asp-action="Index">🎭 All Cinema</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="MovieList" asp-action="Index">Movie List</a>
+                            <a class="nav-link" asp-area="" asp-controller="MovieList" asp-action="Index">🍿 Movie List</a>
                         </li>
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Room" asp-action="Index">Manage Room</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Index">Manage Movie</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ShowTime" asp-action="Index">Manage ShowTime</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Discount" asp-action="Index">Manage Discount</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Cinema" asp-action="List">Manage Cinema</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                                    🔧 Admin Panel
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Room" asp-action="Index">🏢 Manage Room</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Movie" asp-action="Index">🎬 Manage Movie</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="ShowTime" asp-action="Index">🕒 Manage ShowTime</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Discount" asp-action="Index">💰 Manage Discount</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Cinema" asp-action="List">🏠 Manage Cinema</a></li>
+                                </ul>
                             </li>
                         }
                     </ul>
@@ -53,6 +53,59 @@
             </div>
         </nav>
     </header>
+
+    <style>
+        /* Nền navbar gradient siêu lung linh */
+        .custom-navbar {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 10px 0;
+        }
+
+        /* Tên thương hiệu cách điệu */
+        .brand-name {
+            font-weight: bold;
+            font-size: 24px;
+            background: linear-gradient(90deg, #009574, #00977a, #00be94 );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Navbar items */
+        .navbar-nav .nav-link {
+            font-size: 18px;
+            font-weight: 500;
+            color: white;
+            transition: all 0.3s ease-in-out;
+        }
+
+            /* Hiệu ứng hover */
+            .navbar-nav .nav-link:hover {
+                color: #ffeb3b;
+                transform: scale(1.1);
+            }
+
+        /* Dropdown menu đẹp hơn */
+        .dropdown-menu {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown-item {
+            font-size: 16px;
+            font-weight: 500;
+            color: #ff4b2b;
+            transition: all 0.3s ease-in-out;
+        }
+
+            .dropdown-item:hover {
+                background-color: #ff4b2b;
+                color: white;
+            }
+    </style>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
