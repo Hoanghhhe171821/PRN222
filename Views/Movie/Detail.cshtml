@@ -1,0 +1,27 @@
+﻿@using AssignmentPRN222.Models;
+@model Movie
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            @if (!string.IsNullOrEmpty(Model.Images))
+            {
+                <img src="@Model.Images" style="width: 50%;" class="img-fluid" alt="@Model.Name">
+            }
+            else
+            {
+                <div class="bg-light text-center" style="height: 300px; line-height: 300px;">No Image</div>
+            }
+        </div>
+        <div class="col-md-8">
+            <h1>@Model.Name</h1>
+            <p><strong>Actor:</strong> @Model.Actor</p>
+            <p><strong>Diễn viên:</strong> @Model.Actor</p>
+            <p><strong>Thời lượng:</strong> @Model.TimeMovie</p>
+            <p><strong>Description:</strong> @Model.Description</p>
+            <div class="mt-3">
+@*                 <a asp-controller="Movie" asp-action="BuyTicket" asp-route-movieId="@Model.Id" class="btn btn-primary">Mua Vé</a> *@
+            </div>
+        </div>
+    </div>
+</div>

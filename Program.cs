@@ -1,6 +1,7 @@
 using AssignmentPRN222.Interfaces;
 using AssignmentPRN222.Models;
 using AssignmentPRN222.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AssignmentPRN222
@@ -11,8 +12,10 @@ namespace AssignmentPRN222
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<ProjectPrn222Context>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+                        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddIdentity<UserProfile, IdentityRole>()
+                        .AddEntityFrameworkStores<ProjectPrn222Context>()
+                        .AddDefaultTokenProviders();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
@@ -43,7 +46,9 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 
             app.UseAuthorization();
             app.MapRazorPages();
-            app.MapGet("/", () => "Hello World!");
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             //test
             app.Run();

@@ -27,7 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\" />
+    <None Include="wwwroot\img\matbiec.jpg" />
+    <None Include="wwwroot\img\nhabanu.jpg" />
   </ItemGroup>
 
 </Project>
