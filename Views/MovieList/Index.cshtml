@@ -1,26 +1,26 @@
 ﻿@using AssignmentPRN222.Models;
 @model List<Movie>
 
-<div class="container">
+<div class="container mt-5">
+    <h1 class="text-center mb-4 text-gradient">🎬 Danh Sách Phim Hot Nhất Hiện Nay 🎬</h1>
+
     <div class="row">
         @foreach (var movie in Model)
         {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <a asp-controller="Movie" asp-action="Detail" asp-route-movieId="@movie.Id" style="text-decoration: none;">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card movie-card">
+                    <a asp-controller="Movie" asp-action="Detail" asp-route-movieId="@movie.Id" class="movie-link">
                         @if (!string.IsNullOrEmpty(movie.Images))
                         {
-                            <img src="@movie.Images" class="card-img-top img-fluid" alt="@movie.Name" style="max-height: 200px; object-fit: cover;">
+                            <img src="@movie.Images" class="card-img-top movie-img" alt="@movie.Name">
                         }
                         else
                         {
-                            <div class="card-img-top bg-light text-center" style="height: 200px; line-height: 200px ;">No Image</div>
+                            <div class="card-img-top movie-img no-image">No Image</div>
                         }
-                        <div class="card-body">
-                            <h5 class="card-title text-center" style="color: black; font-size:40px">@movie.Name</h5>
-                            <div class="card-title text-center">
-                                @(movie.TimeMovie.Hour) tiếng @(movie.TimeMovie.Minute) phút
-                            </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title movie-title">@movie.Name</h5>
+                            <p class="movie-time">⏳ @(movie.TimeMovie.Hour) giờ @(movie.TimeMovie.Minute) phút</p>
                         </div>
                     </a>
                 </div>
@@ -28,3 +28,66 @@
         }
     </div>
 </div>
+
+<style>
+    /* Hiệu ứng gradient cho tiêu đề */
+    .text-gradient {
+        font-weight: bold;
+        background: linear-gradient(45deg, #ff416c, #ff4b2b, #ff7300);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Card movie đẹp hơn */
+    .movie-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+        /* Khi hover vào card */
+        .movie-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.3);
+        }
+
+    /* Link không có gạch chân */
+    .movie-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* Ảnh phim */
+    .movie-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+
+    /* Nếu không có ảnh */
+    .no-image {
+        background-color: #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: #777;
+    }
+
+    /* Tiêu đề phim */
+    .movie-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    /* Thời lượng phim */
+    .movie-time {
+        font-size: 18px;
+        color: #ff4b2b;
+        font-weight: bold;
+    }
+</style>

@@ -1,0 +1,106 @@
+﻿@{
+    DateTime today = DateTime.Now;
+}
+
+<div class="container mt-5">
+    <!-- Chọn Ngày -->
+    <div class="text-center mb-4">
+        <h3 class="text-primary fw-bold">Chọn ngày chiếu</h3>
+        <div class="btn-group shadow-sm">
+            @for (int i = 0; i < 5; i++)
+            {
+                DateTime nextDay = today.AddDays(i);
+                <a asp-controller="Movie" asp-action="BuyTicket" asp-route-dateBuy="@nextDay.ToString("yyyy-MM-dd")" asp-route-movieId="@ViewBag.movieId" asp-route-provinceId="@ViewBag.province"
+                   class="btn btn-light border-primary px-4 py-2 fw-bold text-dark">
+                    @nextDay.ToString("dd-MM-yyyy")
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Chọn Khu Vực -->
+    <div class="text-center mb-4">
+        <h3 class="text-success fw-bold">Chọn khu vực</h3>
+        <div class="btn-group shadow-sm">
+            @foreach (var province in ViewBag.Provinces)
+            {
+                <a asp-controller="Movie" asp-action="BuyTicket" asp-route-dateBuy="@ViewBag.Date" asp-route-movieId="@ViewBag.movieId" asp-route-provinceId="@province.Id"
+                   class="btn btn-light border-success px-4 py-2 fw-bold text-dark">
+                    @province.Name
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Danh Sách Rạp và Suất Chiếu -->
+    <div class="mt-4">
+        @foreach (var d in ViewBag.Data)
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="m-0 fw-bold">@d.Key.Name</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-9">
+                            <div class="btn-group">
+                                @if (d.Value.Count == 0)
+                                {
+                                    <p class="text-danger fw-bold">Không có suất chiếu nào!</p>
+                                }
+                                @foreach (var v in d.Value)
+                                {
+                                    <a asp-controller="SeatBooking" asp-action="Detail" asp-route-showTimeId="@v.Id"
+                                       class="btn btn-outline-primary fw-bold shadow-sm">
+                                        🕒 @v.StartTime
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- CSS -->
+<style>
+    /* Chỉnh lại màu và hiệu ứng */
+    .btn {
+        transition: all 0.3s ease-in-out;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+    .btn-light:hover {
+        background-color: rgba(0, 123, 255, 0.1);
+        transform: scale(1.05);
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: white !important;
+    }
+
+    .btn-outline-primary {
+        border-color: #007bff;
+        color: #007bff;
+        padding: 10px 15px;
+        margin: 5px;
+    }
+
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+    .card-header {
+        font-size: 1.2rem;
+    }
+</style>

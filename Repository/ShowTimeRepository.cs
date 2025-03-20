@@ -30,15 +30,15 @@ namespace AssignmentPRN222.Repository
 
         public List<ShowTime> GetShowTimeByDateandCinemaandMovie(DateOnly date, int cinemaid, int movieId)
         {
-            //TimeSpan timeSpan = DateTime.Now.TimeOfDay;
-            //var query = _dbcontext.ShowTime
-            //    .Where(x => x.DateShowTime == date && x.CinemaId == cinemaid && x.MovieId == movieId);
-            //if (date == DateOnly.FromDateTime(DateTime.Today))
-            //{
-            //    query = query.Where(x => x.StartTime > timeSpan);
-            //}
-            //query = query.OrderBy(x => x.StartTime);
-            //return query.ToList();
+            TimeSpan timeSpan = DateTime.Now.TimeOfDay;
+            var query = _dbcontext.ShowTimes
+                .Where(x => x.DateShowTime == date && x.CinemaId == cinemaid && x.MovieId == movieId);
+            if (date == DateOnly.FromDateTime(DateTime.Today))
+            {
+                query = query.Where(x => x.StartTime > timeSpan);
+            }
+            query = query.OrderBy(x => x.StartTime);
+            return query.ToList();
             return null;
         }
 

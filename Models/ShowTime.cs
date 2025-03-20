@@ -15,9 +15,9 @@ public partial class ShowTime
 
     public DateOnly DateShowTime { get; set; }
 
-    public TimeOnly StartTime { get; set; }
+    public TimeSpan StartTime { get; set; }
 
-    public TimeOnly EndTime { get; set; }
+    public TimeSpan EndTime { get; set; }
 
     public int PriceA { get; set; }
 
