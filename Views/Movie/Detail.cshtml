@@ -17,7 +17,7 @@
             <h1>@Model.Name</h1>
             <p><strong>Actor:</strong> @Model.Actor</p>
             <p><strong>Diễn viên:</strong> @Model.Actor</p>
-            <p><strong>Thời lượng:</strong> @Model.TimeMovie</p>
+            <p><strong>Thời lượng:</strong>  @(Model.TimeMovie.Hour) tiếng @(Model.TimeMovie.Minute) phút</p>
             <p><strong>Description:</strong> @Model.Description</p>
             <div class="mt-3">
 @*                 <a asp-controller="Movie" asp-action="BuyTicket" asp-route-movieId="@Model.Id" class="btn btn-primary">Mua Vé</a> *@

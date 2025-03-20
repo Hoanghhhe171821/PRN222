@@ -5,20 +5,22 @@
     <div class="row">
         @foreach (var movie in Model)
         {
-            <div class="col-md-3 mb-4">
+            <div class="col-md-4 mb-4">
                 <div class="card">
                     <a asp-controller="Movie" asp-action="Detail" asp-route-movieId="@movie.Id" style="text-decoration: none;">
                         @if (!string.IsNullOrEmpty(movie.Images))
                         {
-                            <img src="@movie.Images" class="card-img-top img-fluid" alt="@movie.Name" style="max-height: 150px; object-fit: cover;">
+                            <img src="@movie.Images" class="card-img-top img-fluid" alt="@movie.Name" style="max-height: 200px; object-fit: cover;">
                         }
                         else
                         {
-                            <div class="card-img-top bg-light text-center" style="height: 150px; line-height: 150px;">No Image</div>
+                            <div class="card-img-top bg-light text-center" style="height: 200px; line-height: 200px ;">No Image</div>
                         }
                         <div class="card-body">
-                            <h5 class="card-title text-center">@movie.Name</h5>
-                            <h5 class="card-title text-center">Thời Lượng @movie.TimeMovie</h5>
+                            <h5 class="card-title text-center" style="color: black; font-size:40px">@movie.Name</h5>
+                            <div class="card-title text-center">
+                                @(movie.TimeMovie.Hour) tiếng @(movie.TimeMovie.Minute) phút
+                            </div>
                         </div>
                     </a>
                 </div>
