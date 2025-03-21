@@ -1,6 +1,6 @@
 ﻿@model SeatBookingViewModel
 
-<h2 class="text-center mb-4">Chọn ghế cho suất chiếu: <span class="text-primary">@Model.ShowTime.StartTime</span></h2>
+<h2 class="text-center mb-4 text-glow">Chọn ghế cho suất chiếu: <span class="text-primary">@Model.ShowTime.StartTime</span></h2>
 
 <!-- Chú thích màu sắc -->
 <div class="seat-legend d-flex justify-content-center mb-3">
@@ -13,7 +13,7 @@
 <div class="seat-map text-center">
     @for (int row = 1; row <= Model.Seats.Max(s => s.RowNumber); row++)
     {
-        <div class="seat-row d-flex justify-content-center">
+        <div class="seat-row">
             @foreach (var seat in Model.Seats.Where(s => s.RowNumber == row))
             {
                 string seatId = $"{seat.RowNumber}-{seat.CloNumber}";
@@ -33,7 +33,7 @@
     <input type="hidden" name="selectedSeats" id="selectedSeatsInput" />
     <input type="hidden" name="showTimeId" value="@Model.ShowTime.Id" />
     <input type="hidden" asp-for="ShowTime.RoomId" />
-    <button type="submit" class="btn btn-success">Đặt Ghế</button>
+    <button type="submit" class="btn btn-glow">Đặt Ghế</button>
 </form>
 
 <script>
@@ -50,70 +50,119 @@
 
                 if (index === -1) {
                     selectedSeats.push(seatId);
-                    this.classList.remove("bg-success");
-                    this.classList.add("bg-warning", "text-dark");
+                    this.classList.add("seat-selected");
                 } else {
                     selectedSeats.splice(index, 1);
-                    this.classList.remove("bg-warning", "text-dark");
-                    this.classList.add("bg-success", "text-white");
+                    this.classList.remove("seat-selected");
                 }
                 document.getElementById("selectedSeatsInput").value = selectedSeats.join(",");
             });
         });
     });
 </script>
+
 <style>
-    .seat-map {
-        margin: 20px auto;
-        max-width: 500px;
+    /* Tổng thể */
+    body {
+        background: #ffffff;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
     }
 
-    .seat-row {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 5px;
-        gap: 8px;
+    /* Hiệu ứng phát sáng nhẹ */
+    .text-glow {
+        color: #ff416c;
+        text-shadow: 0 0 5px rgba(255, 65, 108, 0.5);
     }
 
-    .seat {
-        width: 40px;
-        height: 40px;
-        margin: 5px;
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
-        justify-content: center;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .seat-available {
-        background-color: green;
+    .btn-glow {
+        background: linear-gradient(45deg, #ff416c, #ff6a88);
         color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 18px;
+        border-radius: 50px;
+        box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
+        transition: all 0.3s ease-in-out;
     }
 
-    .seat-booked {
-        background-color: red;
-        color: white;
-        pointer-events: none;
-    }
+        .btn-glow:hover {
+            background: linear-gradient(45deg, #ff6a88, #ff416c);
+            box-shadow: 0 5px 25px rgba(255, 65, 108, 0.5);
+            transform: scale(1.05);
+        }
 
-    .seat-selected {
-        background-color: yellow;
-        color: black;
-    }
-
+    /* Chú thích màu ghế */
     .seat-legend {
         display: flex;
         gap: 20px;
         justify-content: center;
         align-items: center;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     .legend-item {
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 8px;
+        font-size: 16px;
+    }
+
+    /* Sơ đồ ghế */
+    .seat-map {
+        margin: 20px auto;
+        max-width: 600px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .seat-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+        gap: 12px;
+    }
+
+    .seat {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        font-size: 14px;
+        text-align: center;
+        border: 2px solid #ddd;
+    }
+
+    .seat-available {
+        background: #00be94;
+        color: white;
+        box-shadow: 0 0 10px rgba(0, 190, 148, 0.5);
+    }
+
+    .seat-booked {
+        background: #ff416c;
+        color: white;
+        pointer-events: none;
+        box-shadow: 0 0 10px rgba(255, 65, 108, 0.5);
+    }
+
+    .seat-selected {
+        background: #ffd700;
+        color: black;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+    }
+
+    .seat:hover {
+        transform: scale(1.1);
     }
 </style>

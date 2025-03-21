@@ -1,0 +1,125 @@
+﻿<h1 class="text-center text-glow">Thanh Toán</h1>
+
+<form method="post" class="container payment-form">
+    <div class="mb-3">
+        <label for="code" class="form-label">Mã giảm giá</label>
+        <div class="input-group">
+            <input type="text" name="code" class="form-control" id="code" placeholder="Nhập mã giảm giá" />
+            <button id="apply" class="btn btn-glow">Áp dụng</button>
+        </div>
+        <div id="discountError" class="text-danger mt-2" style="display: none;"></div>
+    </div>
+
+    <input type="hidden" name="selectedSeats" value="@ViewBag.selectedSeats" />
+    <input type="hidden" name="showTimeId" value="@ViewBag.showTimeId" />
+    <input type="hidden" name="roomId" value="@ViewBag.roomId" />
+    <input type="hidden" name="price" value="@ViewBag.Price" id="priceInput" />
+
+    <h2 class="text-center price-display">Tổng tiền: <span id="totalPrice">@($"{ViewBag.Price:N0}")</span> VNĐ</h2>
+    @if (TempData["error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["error"]</div>
+    }
+    <button type="submit" class="btn btn-glow btn-block">Xác nhận thanh toán</button>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#apply').click(function (e) {
+                e.preventDefault();
+                var code = $('#code').val();
+
+                $.ajax({
+                    url: '/Discount/getDiscount',
+                    type: 'GET',
+                    data: { code: code },
+                    success: function (response) {
+                        if (response.success) {
+                            var newPrice = @ViewBag.Price - response.price;
+                            $('#totalPrice').text(newPrice);
+                            $('#priceInput').val(newPrice);
+                            $('#discountError').hide();
+                        } else {
+                            $('#discountError').text(response.message).show();
+                        }
+                    },
+                    error: function () {
+                        $('#discountError').text("Không thể áp dụng mã giảm giá.").show();
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<style>
+    /* Font và màu tổng thể */
+    body {
+        background: #ffffff;
+        font-family: 'Poppins', sans-serif;
+        color: #333;
+    }
+
+    /* Tiêu đề có hiệu ứng phát sáng */
+    .text-glow {
+        color: #ff416c;
+        text-shadow: 0 0 10px rgba(255, 65, 108, 0.5);
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    /* Form thanh toán */
+    .payment-form {
+        max-width: 500px;
+        margin: 30px auto;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-group {
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control {
+        border: none;
+        padding: 12px;
+    }
+
+    /* Button hiệu ứng glow */
+    .btn-glow {
+        background: linear-gradient(45deg, #ff416c, #ff6a88);
+        color: white;
+        border: none;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 50px;
+        box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
+        transition: all 0.3s ease-in-out;
+    }
+
+        .btn-glow:hover {
+            background: linear-gradient(45deg, #ff6a88, #ff416c);
+            box-shadow: 0 5px 25px rgba(255, 65, 108, 0.5);
+            transform: scale(1.05);
+        }
+
+    /* Hiển thị giá */
+    .price-display {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    /* Lỗi giảm giá */
+    #discountError {
+        font-size: 14px;
+        font-weight: bold;
+    }
+</style>

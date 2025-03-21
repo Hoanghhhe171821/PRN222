@@ -4,3 +4,9 @@
 @{
 }
 <h2>Welcome to Wjbu Cinema</h2>
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert("@TempData["Message"]");
+    </script>
+}

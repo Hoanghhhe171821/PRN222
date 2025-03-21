@@ -10,5 +10,6 @@ namespace AssignmentPRN222.Interfaces
 
         int FindSeatId(int col, int rol, int RoomId);
         Task<List<Seat>> GetSeatListAsync(int roomId);
+        Seat GetSeatById(int seatId);
     }
 }

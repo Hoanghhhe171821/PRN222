@@ -2,8 +2,10 @@ using AssignmentPRN222.Interfaces;
 using AssignmentPRN222.Models;
 using AssignmentPRN222.Repository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
-
+using AssignmentPRN222;
+using Microsoft.AspNetCore.Identity.UI.Services;
 namespace AssignmentPRN222
 {
     public class Program
@@ -14,8 +16,8 @@ namespace AssignmentPRN222
             builder.Services.AddDbContext<ProjectPrn222Context>(options =>
                         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddIdentity<UserProfile, IdentityRole>()
-                        .AddEntityFrameworkStores<ProjectPrn222Context>()
-                        .AddDefaultTokenProviders();
+    .AddEntityFrameworkStores<ProjectPrn222Context>()
+    .AddDefaultTokenProviders();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
@@ -29,7 +31,7 @@ namespace AssignmentPRN222
             builder.Services.AddTransient<ISeatBooking, SeatBookingRepository>();
             builder.Services.AddTransient<IDiscount, DiscountRepository>();
             builder.Services.AddTransient<IOrder, OrderRepository>();
-
+            builder.Services.AddSingleton<IEmailSender, FakeEmailSender>();
 
             var app = builder.Build();
             if (!app.Environment.IsDevelopment())
