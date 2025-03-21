@@ -1,4 +1,4 @@
-﻿using AssignmentPRN222.Models;
+﻿    using AssignmentPRN222.Models;
 
 namespace AssignmentPRN222.Interfaces
 {
@@ -9,5 +9,6 @@ namespace AssignmentPRN222.Interfaces
         List<Seat> GetSeatList(int roomId);
 
         int FindSeatId(int col, int rol, int RoomId);
+        Task<List<Seat>> GetSeatListAsync(int roomId);
     }
 }

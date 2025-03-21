@@ -14,24 +14,27 @@ namespace AssignmentPRN222.Repository
 
         public int FindSeatBookingId(int showTimeid, int seatId)
         {
-            return _dbcontext.SeatsBookings.Where(x=>x.ShowTimeId==showTimeid && seatId==x.SeatId).Select(x=>x.Id).FirstOrDefault();
+            return _dbcontext.SeatsBooking.Where(x=>x.ShowTimeId==showTimeid && seatId==x.SeatId).Select(x=>x.Id).FirstOrDefault();
         }
 
-        public List<SeatsBooking>  GetList(int id)
+        public async Task<List<SeatsBooking>> GetList(int id)
         {
-            return _dbcontext.SeatsBookings.Include(x=>x.Seat).Include(x=>x.ShowTime).Where(x => x.ShowTimeId == id).ToList();
+            return await _dbcontext.SeatsBooking
+             .Include(x => x.Seat)
+             .Where(x => x.ShowTimeId == id && x.IsBooked)
+             .ToListAsync();
 
         }
 
         public SeatsBooking GetSeatBookingById(int id)
         {
-            return _dbcontext.SeatsBookings.Include(x=>x.Seat).Include(x=>x.ShowTime).FirstOrDefault(x => x.Id == id);
+            return _dbcontext.SeatsBooking.Include(x=>x.Seat).Include(x=>x.ShowTime).FirstOrDefault(x => x.Id == id);
         }
         public bool UpdateSeatBooking(SeatsBooking seatBooking) {
             if (seatBooking.IsBooked == false)
             {
                 seatBooking.IsBooked = true;
-                _dbcontext.SeatsBookings.Update(seatBooking);
+                _dbcontext.SeatsBooking.Update(seatBooking);
                 return true;
             }
             else

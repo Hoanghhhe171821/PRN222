@@ -1,0 +1,119 @@
+﻿@model SeatBookingViewModel
+
+<h2 class="text-center mb-4">Chọn ghế cho suất chiếu: <span class="text-primary">@Model.ShowTime.StartTime</span></h2>
+
+<!-- Chú thích màu sắc -->
+<div class="seat-legend d-flex justify-content-center mb-3">
+    <div class="legend-item"><div class="seat seat-available"></div> Ghế trống</div>
+    <div class="legend-item"><div class="seat seat-booked"></div> Ghế đã đặt</div>
+    <div class="legend-item"><div class="seat seat-selected"></div> Ghế đang chọn</div>
+</div>
+
+<!-- Sơ đồ ghế -->
+<div class="seat-map text-center">
+    @for (int row = 1; row <= Model.Seats.Max(s => s.RowNumber); row++)
+    {
+        <div class="seat-row d-flex justify-content-center">
+            @foreach (var seat in Model.Seats.Where(s => s.RowNumber == row))
+            {
+                string seatId = $"{seat.RowNumber}-{seat.CloNumber}";
+                bool isBooked = Model.BookedSeatIds.Contains(seat.Id);
+                string seatClass = isBooked ? "seat-booked" : "seat-available";
+
+                <div id="@seatId" class="seat @seatClass" data-seat-id="@seat.Id">
+                    @seat.RowNumber-@seat.CloNumber
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<!-- Form đặt vé -->
+<form method="post" class="text-center mt-3">
+    <input type="hidden" name="selectedSeats" id="selectedSeatsInput" />
+    <input type="hidden" name="showTimeId" value="@Model.ShowTime.Id" />
+    <input type="hidden" asp-for="ShowTime.RoomId" />
+    <button type="submit" class="btn btn-success">Đặt Ghế</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let selectedSeats = [];
+        document.querySelectorAll(".seat").forEach(seat => {
+            seat.addEventListener("click", function () {
+                let seatId = this.dataset.seatId;
+                let isBooked = this.getAttribute("data-is-booked") === "true";
+
+                if (isBooked) return;
+
+                let index = selectedSeats.indexOf(seatId);
+
+                if (index === -1) {
+                    selectedSeats.push(seatId);
+                    this.classList.remove("bg-success");
+                    this.classList.add("bg-warning", "text-dark");
+                } else {
+                    selectedSeats.splice(index, 1);
+                    this.classList.remove("bg-warning", "text-dark");
+                    this.classList.add("bg-success", "text-white");
+                }
+                document.getElementById("selectedSeatsInput").value = selectedSeats.join(",");
+            });
+        });
+    });
+</script>
+<style>
+    .seat-map {
+        margin: 20px auto;
+        max-width: 500px;
+    }
+
+    .seat-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+        gap: 8px;
+    }
+
+    .seat {
+        width: 40px;
+        height: 40px;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        justify-content: center;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .seat-available {
+        background-color: green;
+        color: white;
+    }
+
+    .seat-booked {
+        background-color: red;
+        color: white;
+        pointer-events: none;
+    }
+
+    .seat-selected {
+        background-color: yellow;
+        color: black;
+    }
+
+    .seat-legend {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+</style>

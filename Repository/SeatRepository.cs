@@ -26,5 +26,9 @@ namespace AssignmentPRN222.Repository
         {
             return _dbcontext.Seats.Where(x=>x.RoomId == roomId).ToList();
         }
+        public async Task<List<Seat>> GetSeatListAsync(int roomId)
+        {
+            return await _dbcontext.Seats.Where(x => x.RoomId == roomId).ToListAsync();
+        }
     }
 }

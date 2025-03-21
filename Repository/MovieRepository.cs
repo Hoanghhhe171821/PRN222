@@ -27,7 +27,7 @@ namespace AssignmentPRN222.Repository
 
         public List<int> getMovieByDayandCinema(DateOnly date, int cinemaid)
         {
-            var listMovie=_dbcontext.ShowTimes.Where(x=>x.DateShowTime==date&&x.CinemaId==cinemaid  ).Select(p=>p.MovieId).Distinct().ToList();
+            var listMovie=_dbcontext.ShowTime.Where(x=>x.DateShowTime==date&&x.CinemaId==cinemaid  ).Select(p=>p.MovieId).Distinct().ToList();
             return listMovie;
         }
 

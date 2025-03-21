@@ -13,25 +13,25 @@ namespace AssignmentPRN222.Repository
         }
         public void Create(ShowTime showTime)
         {
-            _dbcontext.ShowTimes.Add(showTime);
+            _dbcontext.ShowTime.Add(showTime);
         }
 
         public void DeleteShowTime(int showTimeId)
         {
-            var showTime=_dbcontext.ShowTimes.Find(showTimeId);
-            _dbcontext.ShowTimes.Remove(showTime);
+            var showTime=_dbcontext.ShowTime.Find(showTimeId);
+            _dbcontext.ShowTime.Remove(showTime);
         }
 
         public List<ShowTime> GetAll(int movieId,int cinemaId,int roomId)
         {
-            return _dbcontext.ShowTimes.Where(x=>(x.MovieId==movieId||movieId==0)&&(x.CinemaId==cinemaId||cinemaId==0)&&(x.RoomId==roomId||roomId==0))
+            return _dbcontext.ShowTime.Where(x=>(x.MovieId==movieId||movieId==0)&&(x.CinemaId==cinemaId||cinemaId==0)&&(x.RoomId==roomId||roomId==0))
                 .Include(x => x.Movie).OrderByDescending(x=>x.DateShowTime).ToList();
         }
 
         public List<ShowTime> GetShowTimeByDateandCinemaandMovie(DateOnly date, int cinemaid, int movieId)
         {
             TimeSpan timeSpan = DateTime.Now.TimeOfDay;
-            var query = _dbcontext.ShowTimes
+            var query = _dbcontext.ShowTime
                 .Where(x => x.DateShowTime == date && x.CinemaId == cinemaid && x.MovieId == movieId);
             if (date == DateOnly.FromDateTime(DateTime.Today))
             {
@@ -42,11 +42,18 @@ namespace AssignmentPRN222.Repository
             return null;
         }
 
- 
 
         public ShowTime GetShowTimeById(int id)
         {
-            return _dbcontext.ShowTimes.Include(x=>x.Movie).FirstOrDefault(x=>x.Id==id);
+            return _dbcontext.ShowTime
+                .Include(x => x.Movie)
+                .FirstOrDefault(x => x.Id == id);
+        }
+        public async Task<ShowTime> GetShowTimeByIdAsync(int id)
+        {
+            return await _dbcontext.ShowTime
+                .Include(x => x.Movie)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public bool IsSetting(int showTimeId,DateOnly dateShow, TimeSpan timeStart, TimeSpan timeEnd, int RoomId)
@@ -83,7 +90,7 @@ namespace AssignmentPRN222.Repository
 
         public void UpdateShowTime(ShowTime showTime)
         {
-            _dbcontext.ShowTimes.Update(showTime);
+            _dbcontext.ShowTime.Update(showTime);
         }
     }
 }

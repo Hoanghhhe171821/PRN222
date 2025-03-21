@@ -21,3 +21,9 @@ public partial class SeatsBooking
 
     public virtual ShowTime ShowTime { get; set; } = null!;
 }
+public class SeatBookingViewModel
+{
+    public ShowTime ShowTime { get; set; }
+    public List<Seat> Seats { get; set; }
+    public List<int> BookedSeatIds { get; set; }
+}
