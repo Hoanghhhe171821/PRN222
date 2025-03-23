@@ -27,5 +27,4 @@ public partial class ShowTime
 
     public virtual Movie Movie { get; set; } = null!;
 
-    public virtual ICollection<SeatsBooking> SeatsBookings { get; set; } = new List<SeatsBooking>();
 }

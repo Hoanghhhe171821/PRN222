@@ -1,0 +1,162 @@
+﻿@using AssignmentPRN222.Models;
+
+@model ShowTime
+
+<div class="container">
+    <form method="post" class="form-glow">
+        <div class="border p-4 mt-4 rounded shadow-lg bg-white">
+            <h2 class="text-center text-glow">Create ShowTime</h2>
+            <hr />
+
+            <div class="mb-3">
+                <label asp-for="MovieId" class="form-label">Movie</label>
+                <select asp-for="MovieId" class="form-select">
+                    <option value="">-- Select Movie --</option>
+                    @foreach (var movie in ViewBag.Movies)
+                    {
+                        <option value="@movie.Id">@movie.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="MovieId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Province</label>
+                <select id="provinceSelect" class="form-select">
+                    <option value="">-- Select Province --</option>
+                    @foreach (var province in ViewBag.Provinces)
+                    {
+                        <option value="@province.Id">@province.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CinemaId" class="form-label">Cinema</label>
+                <select id="cinemaSelect" name="CinemaId" asp-for="CinemaId" class="form-select">
+                    <option value="">-- Select Cinema --</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="RoomId" class="form-label">Room</label>
+                <select id="roomSelect" name="RoomId" asp-for="RoomId" class="form-select">
+                    <option value="">-- Select Room --</option>
+                </select>
+                <span asp-validation-for="RoomId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DateShowTime" class="form-label">Date Show Time</label>
+                <input asp-for="DateShowTime" type="date" class="form-control" />
+                <span asp-validation-for="DateShowTime" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="StartTime" class="form-label">Start Time</label>
+                <input asp-for="StartTime" type="time" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PriceA" class="form-label">Price A</label>
+                <input asp-for="PriceA" type="text" class="form-control" />
+                <span asp-validation-for="PriceA" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PriceB" class="form-label">Price B</label>
+                <input asp-for="PriceB" type="text" class="form-control" />
+                <span asp-validation-for="PriceB" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3">
+                <button type="submit" class="btn btn-glow">Create</button>
+                <a asp-action="Index" asp-controller="ShowTime" class="btn btn-secondary">Back To List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#provinceSelect').change(function () {
+                var provinceId = $(this).val();
+                if (provinceId) {
+                    $.ajax({
+                        url: '/Room/GetCinemaByProvinceId?provinceid=' + provinceId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            var cinemaSelect = $('#cinemaSelect');
+                            cinemaSelect.empty().append($('<option></option>').val('').html('-- Select Cinema --'));
+                            $.each(data, function (i, cinema) {
+                                cinemaSelect.append($('<option></option>').val(cinema.id).html(cinema.name));
+                            });
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                } else {
+                    $('#cinemaSelect').empty().append($('<option></option>').val('').html('-- Select Cinema --'));
+                }
+            });
+            $('#cinemaSelect').change(function () {
+                var cinemaId = $(this).val();
+                if (cinemaId) {
+                    $.ajax({
+                        url: '/ShowTime/GetRoomByCinemaId?cinemaid=' + cinemaId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            var roomSelect = $('#roomSelect');
+                            roomSelect.empty().append($('<option></option>').val('').html('-- Select Room --'));
+                            $.each(data, function (i, room) {
+                                roomSelect.append($('<option></option>').val(room.roomId).html(room.roomName));
+                            });
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                } else {
+                    $('#roomSelect').empty().append($('<option></option>').val('').html('-- Select Room --'));
+                }
+            });
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .text-glow {
+        color: #ff416c;
+        text-shadow: 0 0 8px rgba(255, 65, 108, 0.8);
+    }
+
+    .btn-glow {
+        background: linear-gradient(45deg, #ff416c, #ff6a88);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 30px;
+        font-size: 18px;
+        box-shadow: 0 4px 10px rgba(255, 65, 108, 0.3);
+        transition: all 0.3s ease;
+    }
+
+        .btn-glow:hover {
+            background: linear-gradient(45deg, #ff6a88, #ff416c);
+            box-shadow: 0 6px 20px rgba(255, 65, 108, 0.5);
+            transform: scale(1.05);
+        }
+
+    .form-glow {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+</style>
