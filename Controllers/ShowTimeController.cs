@@ -42,7 +42,7 @@ namespace AssignmentPRN222.Controllers
             {
                 ModelState.AddModelError("StartTime", "This time is busy");
             }
-
+            showTime.Movie = movie;
             if (ModelState.IsValid)
             {
 
@@ -51,6 +51,16 @@ namespace AssignmentPRN222.Controllers
                 _unitOfWork.ShowTimes.Create(showTime);
                 _unitOfWork.Complete();
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var entry in ModelState)
+                {
+                    foreach (var error in entry.Value.Errors)
+                    {
+                        Console.WriteLine($"Key: {entry.Key}, Error: {error.ErrorMessage}");
+                    }
+                }
             }
             var listMovie = _unitOfWork.Movies.getMovieList("");
             this.ViewBag.Movies = listMovie;

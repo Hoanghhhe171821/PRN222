@@ -1,0 +1,108 @@
+﻿@using AssignmentPRN222.Models;
+
+@model Movie
+
+<div class="container">
+    <form method="post" enctype="multipart/form-data" class="form-glow">
+        <div class="border p-4 mt-4 rounded shadow-lg bg-white">
+            <h2 class="text-center text-glow">Create Movie</h2>
+            <hr />
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Name</label>
+                <input asp-for="Name" type="text" class="form-control custom-input" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Author" class="form-label">Author</label>
+                <input asp-for="Author" class="form-control custom-input" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control custom-input"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Images</label>
+                <input type="file" name="images" class="form-control custom-input" />
+                <span asp-validation-for="Images" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Actor" class="form-label">Actor</label>
+                <input asp-for="Actor" class="form-control custom-input" />
+                <span asp-validation-for="Actor" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TimeMovie" class="form-label">Time Movie</label>
+                <input asp-for="TimeMovie" type="time" class="form-control custom-input" />
+                <span asp-validation-for="TimeMovie" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3">
+                <button type="submit" class="btn btn-glow">Create</button>
+                <a asp-action="Index" asp-controller="Movie" class="btn btn-secondary">Back To List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    /* 🌟 Tiêu đề đẹp hơn */
+    .text-glow {
+        color: #ff416c;
+        text-shadow: 0 0 8px rgba(255, 65, 108, 0.8);
+    }
+
+    /* ✨ Nút bóng bẩy */
+    .btn-glow {
+        background: linear-gradient(45deg, #ff416c, #ff6a88);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 30px;
+        font-size: 18px;
+        box-shadow: 0 4px 10px rgba(255, 65, 108, 0.3);
+        transition: all 0.3s ease;
+    }
+
+        .btn-glow:hover {
+            background: linear-gradient(45deg, #ff6a88, #ff416c);
+            box-shadow: 0 6px 20px rgba(255, 65, 108, 0.5);
+            transform: scale(1.05);
+        }
+
+    /* 🏗 Form đẹp hơn */
+    .form-glow {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 🎨 Input sáng đẹp */
+    .custom-input {
+        border-radius: 10px;
+        padding: 10px;
+        border: 2px solid #ff416c;
+        transition: all 0.3s ease;
+    }
+
+        .custom-input:hover {
+            border-color: #ff6a88;
+            box-shadow: 0 0 10px rgba(255, 65, 108, 0.5);
+        }
+
+        .custom-input:focus {
+            border-color: #ff416c;
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 65, 108, 0.8);
+        }
+</style>

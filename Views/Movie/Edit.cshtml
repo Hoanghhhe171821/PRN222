@@ -1,43 +1,46 @@
 ﻿@using AssignmentPRN222.Models;
 
-@model ShowTime
+@model Movie
 
 <div class="container my-5 p-4 shadow-lg rounded bg-light">
-    <h2 class="text-glow display-4 text-center">Edit ShowTime</h2>
+    <h2 class="text-glow display-4 text-center">Edit Movie</h2>
     <hr />
 
     <form method="post">
-        <input asp-for="MovieId" type="hidden" />
-        <input asp-for="CinemaId" type="hidden" />
-        <input asp-for="RoomId" type="hidden" />
-
         <div class="mb-3">
-            <label asp-for="DateShowTime" class="form-label fw-bold">Date Show Time</label>
-            <input asp-for="DateShowTime" type="date" class="form-control custom-input" />
-            <span asp-validation-for="DateShowTime" class="text-danger"></span>
+            <label asp-for="Name" class="form-label fw-bold">Movie Name</label>
+            <input asp-for="Name" type="text" class="form-control custom-input" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="StartTime" class="form-label fw-bold">Start Time</label>
-            <input asp-for="StartTime" type="time" class="form-control custom-input" />
-            <span asp-validation-for="StartTime" class="text-danger"></span>
+            <label asp-for="Author" class="form-label fw-bold">Author</label>
+            <input asp-for="Author" class="form-control custom-input" />
+            <span asp-validation-for="Author" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="PriceA" class="form-label fw-bold">Price A</label>
-            <input asp-for="PriceA" type="text" class="form-control custom-input" />
-            <span asp-validation-for="PriceA" class="text-danger"></span>
+            <label asp-for="Description" class="form-label fw-bold">Description</label>
+            <textarea asp-for="Description" class="form-control custom-input" rows="3"></textarea>
         </div>
 
         <div class="mb-3">
-            <label asp-for="PriceB" class="form-label fw-bold">Price B</label>
-            <input asp-for="PriceB" type="text" class="form-control custom-input" />
-            <span asp-validation-for="PriceB" class="text-danger"></span>
+            <label asp-for="Images" class="form-label fw-bold">Image URL</label>
+            <input asp-for="Images" class="form-control custom-input" />
+            <span asp-validation-for="Images" class="text-danger"></span>
         </div>
+
+        <div class="mb-3">
+            <label asp-for="Actor" class="form-label fw-bold">Actor</label>
+            <input asp-for="Actor" class="form-control custom-input" />
+            <span asp-validation-for="Actor" class="text-danger"></span>
+        </div>
+
+        <input asp-for="TimeMovie" type="hidden" class="form-control" />
 
         <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-glow px-4">Save Changes</button>
-            <a asp-action="Index" asp-controller="ShowTime" class="btn btn-secondary px-4">Back To List</a>
+            <a asp-action="Index" asp-controller="Movie" class="btn btn-secondary px-4">Back To List</a>
         </div>
     </form>
 </div>

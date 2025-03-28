@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
 
 namespace AssignmentPRN222.Models;
@@ -25,6 +26,6 @@ public partial class ShowTime
 
     public bool IsBooked { get; set; }
 
-    public virtual Movie Movie { get; set; } = null!;
+    public virtual Movie? Movie { get; set; }
 
 }

@@ -10,7 +10,7 @@
 
             <div class="mb-3">
                 <label asp-for="MovieId" class="form-label">Movie</label>
-                <select asp-for="MovieId" class="form-select">
+                <select asp-for="MovieId" class="form-select custom-input">
                     <option value="">-- Select Movie --</option>
                     @foreach (var movie in ViewBag.Movies)
                     {
@@ -22,7 +22,7 @@
 
             <div class="mb-3">
                 <label class="form-label">Province</label>
-                <select id="provinceSelect" class="form-select">
+                <select id="provinceSelect" class="form-select custom-input">
                     <option value="">-- Select Province --</option>
                     @foreach (var province in ViewBag.Provinces)
                     {
@@ -33,14 +33,14 @@
 
             <div class="mb-3">
                 <label asp-for="CinemaId" class="form-label">Cinema</label>
-                <select id="cinemaSelect" name="CinemaId" asp-for="CinemaId" class="form-select">
+                <select id="cinemaSelect" name="CinemaId" asp-for="CinemaId" class="form-select custom-input">
                     <option value="">-- Select Cinema --</option>
                 </select>
             </div>
 
             <div class="mb-3">
                 <label asp-for="RoomId" class="form-label">Room</label>
-                <select id="roomSelect" name="RoomId" asp-for="RoomId" class="form-select">
+                <select id="roomSelect" name="RoomId" asp-for="RoomId" class="form-select custom-input">
                     <option value="">-- Select Room --</option>
                 </select>
                 <span asp-validation-for="RoomId" class="text-danger"></span>
@@ -48,25 +48,25 @@
 
             <div class="mb-3">
                 <label asp-for="DateShowTime" class="form-label">Date Show Time</label>
-                <input asp-for="DateShowTime" type="date" class="form-control" />
+                <input asp-for="DateShowTime" type="date" class="form-control custom-input" />
                 <span asp-validation-for="DateShowTime" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="StartTime" class="form-label">Start Time</label>
-                <input asp-for="StartTime" type="time" class="form-control" />
+                <input asp-for="StartTime" type="time" class="form-control custom-input" />
                 <span asp-validation-for="StartTime" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="PriceA" class="form-label">Price A</label>
-                <input asp-for="PriceA" type="text" class="form-control" />
+                <input asp-for="PriceA" type="text" class="form-control custom-input" />
                 <span asp-validation-for="PriceA" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="PriceB" class="form-label">Price B</label>
-                <input asp-for="PriceB" type="text" class="form-control" />
+                <input asp-for="PriceB" type="text" class="form-control custom-input" />
                 <span asp-validation-for="PriceB" class="text-danger"></span>
             </div>
 
@@ -159,4 +159,22 @@
         border-radius: 15px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
+
+    .custom-input {
+        border-radius: 10px;
+        padding: 10px;
+        border: 2px solid #ff416c;
+        transition: all 0.3s ease;
+    }
+
+        .custom-input:hover {
+            border-color: #ff6a88;
+            box-shadow: 0 0 10px rgba(255, 65, 108, 0.5);
+        }
+
+        .custom-input:focus {
+            border-color: #ff416c;
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 65, 108, 0.8);
+        }
 </style>
