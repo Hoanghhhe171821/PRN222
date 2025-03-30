@@ -1,0 +1,90 @@
+﻿@model Discount
+
+<div class="container my-5">
+    <form method="post" class="form-glow">
+        <h2 class="text-glow text-center mb-4">Edit Discount</h2>
+        <hr />
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Code</label>
+            <input asp-for="Name" class="form-control custom-input" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DiscountPrice" class="form-label">Discount Price</label>
+            <input type="number" asp-for="DiscountPrice" class="form-control custom-input" />
+            <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Quantity" class="form-label">Quantity</label>
+            <input type="number" asp-for="Quantity" class="form-control custom-input" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-glow w-50">Save</button>
+            <a asp-action="Index" asp-controller="Discount" class="btn btn-secondary w-50 btn-rounded">Back To List</a>
+        </div>
+    </form>
+</div>
+<style>
+    /* Hiệu ứng lung linh */
+    .text-glow {
+        color: #ff416c;
+        text-shadow: 0 0 8px rgba(255, 65, 108, 0.8);
+    }
+
+    /* Button đẹp như sao Hollywood */
+    .btn-glow {
+        background: linear-gradient(45deg, #ff416c, #ff6a88);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 30px;
+        font-size: 18px;
+        box-shadow: 0 4px 10px rgba(255, 65, 108, 0.3);
+        transition: all 0.3s ease;
+    }
+
+        .btn-glow:hover {
+            background: linear-gradient(45deg, #ff6a88, #ff416c);
+            box-shadow: 0 6px 20px rgba(255, 65, 108, 0.5);
+            transform: scale(1.05);
+        }
+
+    /* Bo góc cho nút Back To List */
+    .btn-rounded {
+        border-radius: 30px;
+    }
+
+    /* Form lung linh */
+    .form-glow {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Input sáng chói */
+    .custom-input {
+        border-radius: 10px;
+        padding: 10px;
+        border: 2px solid #ff416c;
+        transition: all 0.3s ease;
+    }
+
+        .custom-input:hover {
+            border-color: #ff6a88;
+            box-shadow: 0 0 10px rgba(255, 65, 108, 0.5);
+        }
+
+        .custom-input:focus {
+            border-color: #ff416c;
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 65, 108, 0.8);
+        }
+
+</style>

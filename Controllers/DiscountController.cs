@@ -27,8 +27,20 @@ namespace AssignmentPRN222.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Discount discount, string Quantity, string Name)
+        public async Task<IActionResult> Create(Discount discount, string Quantity, string Name)
         {
+            if (string.IsNullOrEmpty(Name))
+            {
+                ModelState.AddModelError("Name", "Discount Code is required.");
+                return View();
+            }
+
+            if ( await _unitOfWork.Discounts.GetByName(Name) != null)
+            {
+                ModelState.AddModelError("Name", "Discount Code đã tồn tại.");
+                return View();
+            }
+
             if (string.IsNullOrEmpty(Quantity))
             {
                 ModelState.AddModelError("Quantity", "Quantity is required.");
@@ -68,6 +80,50 @@ namespace AssignmentPRN222.Controllers
                 return Json(new { success = true, price = discount });
             }
             return Json(new { success = false, message = "Invalid code" });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var discount = await _unitOfWork.Discounts.GetById(id);
+            if (discount == null)
+            {
+                return NotFound();
+            }
+            return View(discount);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(Discount discount)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(discount);
+            }
+
+            var success = await _unitOfWork.Discounts.Update(discount);
+            if (!success)
+            {
+                TempData["Error"] = "Update failed. Discount not found.";
+                return RedirectToAction("Index");
+            }
+
+            TempData["Message"] = "Discount updated successfully!";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            bool isDeleted = await _unitOfWork.Discounts.Delete(id);
+            if (!isDeleted)
+            {
+                TempData["error"] = "Không tìm thấy mã giảm giá!";
+            }
+            else
+            {
+                TempData["success"] = "Xóa mã giảm giá thành công!";
+            }
+            return RedirectToAction("Index");
         }
     }
 }

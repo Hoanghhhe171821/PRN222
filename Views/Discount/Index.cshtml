@@ -24,7 +24,9 @@
                 <tr>
                     <th>Code</th>
                     <th>Price Discount</th>
-                    <th>Available Quantity</th>
+                    <th>Quantity</th>
+                    <th>Available</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +36,19 @@
                         <td>@obj.Name</td>
                         <td>$@obj.DiscountPrice</td>
                         <td>@obj.Quantity</td>
+                        <td>@(obj.IsDiscounted ? "Vô hiệu" : "Còn hiệu lực")</td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="Edit" asp-route-Id="@obj.Id" class="btn btn-sm btn-info">Edit</a>
+                                <form method="post" asp-action="Delete">
+                                    <input type="hidden" name="id" value="@obj.Id" />
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                 }
             </tbody>

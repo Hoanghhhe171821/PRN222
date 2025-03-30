@@ -8,5 +8,9 @@ namespace AssignmentPRN222.Interfaces
         void Create(Discount discount);
         int getPriceDiscount(string guid);
         Task updateStatus(string code);
+        Task<Discount?> GetById(int id);
+        Task<bool> Update(Discount discount);
+        Task<bool> Delete(int id);
+        Task<Discount?> GetByName(string name);
     }
 }

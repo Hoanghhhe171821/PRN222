@@ -1,5 +1,6 @@
 ﻿using AssignmentPRN222.Interfaces;
 using AssignmentPRN222.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AssignmentPRN222.Repository
 {
@@ -17,7 +18,9 @@ namespace AssignmentPRN222.Repository
 
         public List<Discount> GetDiscounts()
         {
-            return _dbcontext.Discounts.Where(x => !x.IsDiscounted).ToList();
+            return _dbcontext.Discounts.OrderBy(x => x.IsDiscounted)
+                                        .ThenByDescending(x => x.Id)
+                                        .ToList();
         }
 
         public int getPriceDiscount(string code)
@@ -42,6 +45,42 @@ namespace AssignmentPRN222.Repository
                 }
             }
             _dbcontext.SaveChanges();
+        }
+        public async Task<Discount?> GetById(int id)
+        {
+            return await _dbcontext.Discounts.FindAsync(id);
+        }
+        public async Task<bool> Update(Discount discount)
+        {
+            var existingDiscount = await _dbcontext.Discounts.FindAsync(discount.Id);
+            if (existingDiscount == null)
+            {
+                return false;
+            }
+
+            existingDiscount.Name = discount.Name;
+            existingDiscount.DiscountPrice = discount.DiscountPrice;
+            existingDiscount.Quantity = discount.Quantity;
+            existingDiscount.IsDiscounted = discount.Quantity > 0 ? false : true;
+
+            await _dbcontext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> Delete(int id)
+        {
+            var discount = await _dbcontext.Discounts.FindAsync(id);
+            if (discount == null)
+            {
+                return false;
+            }
+
+            _dbcontext.Discounts.Remove(discount);
+            await _dbcontext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<Discount?> GetByName(string name)
+        {
+            return await _dbcontext.Discounts.FirstOrDefaultAsync(d => d.Name != null && d.Name.Equals(name));
         }
     }
 }
