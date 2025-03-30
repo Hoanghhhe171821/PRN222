@@ -26,6 +26,8 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+            var originalPrice = @ViewBag.Price;
+
             $('#apply').click(function (e) {
                 e.preventDefault();
                 var code = $('#code').val();
@@ -37,10 +39,12 @@
                     success: function (response) {
                         if (response.success) {
                             var newPrice = @ViewBag.Price - response.price;
-                            $('#totalPrice').text(newPrice);
+                            $('#totalPrice').text(newPrice.toLocaleString('vi-VN') + " VNĐ");
                             $('#priceInput').val(newPrice);
                             $('#discountError').hide();
                         } else {
+                            $('#totalPrice').text(originalPrice.toLocaleString('vi-VN') + " VNĐ");
+                            $('#priceInput').val(originalPrice);
                             $('#discountError').text(response.message).show();
                         }
                     },

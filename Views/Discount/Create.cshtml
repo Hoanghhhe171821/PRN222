@@ -1,0 +1,38 @@
+﻿@model Discount
+
+<div class="container">
+    <form method="post">
+        <div class="border p-3 mt-4">
+            <h2 class="text-primary">Create Discount</h2>
+            <hr />
+
+            <div class="mb-3">
+                <label asp-for="DiscountPrice" class="form-label">Discount Price</label>
+                <input type="number" asp-for="DiscountPrice" class="form-control" />
+                <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Code</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Quantity</label>
+                <input  name="Quantity" type="text" class="form-control" />
+                @if (ViewData.ModelState.ContainsKey("Quantity") && ViewData.ModelState["Quantity"].Errors.Count > 0)
+                {
+                    <span class="text-danger">@ViewData.ModelState["Quantity"].Errors.First().ErrorMessage</span>
+                }
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" asp-controller="Discount" class="btn btn-secondary">Back To List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
