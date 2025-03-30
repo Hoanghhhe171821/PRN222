@@ -54,15 +54,18 @@ namespace AssignmentPRN222.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Payment(string selectedSeats, int showTimeId, int roomId, int price, string code)
+        public async Task<IActionResult> Payment(string selectedSeats, int showTimeId, int roomId, int price, string code)
         {
-            using (var transaction = new TransactionScope(
-    TransactionScopeOption.Required,
-    new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 try
                 {
-                    _unitOfWork.Discounts.updateStatus(code);
+                    if (!string.IsNullOrEmpty(code))
+                    {
+                       await _unitOfWork.Discounts.updateStatus(code);
+
+                    }
+
                     var selectedSeatIds = selectedSeats.Split(',').Select(int.Parse).ToList();
                     List<SeatsBooking> seatBookings = new List<SeatsBooking>();
                     foreach (var seatId in selectedSeatIds)

@@ -7,6 +7,6 @@ namespace AssignmentPRN222.Interfaces
         List<Discount> GetDiscounts();
         void Create(Discount discount);
         int getPriceDiscount(string guid);
-        bool updateStatus(string code);
+        Task updateStatus(string code);
     }
 }

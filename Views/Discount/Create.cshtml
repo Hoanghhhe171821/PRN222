@@ -1,34 +1,34 @@
 ﻿@model Discount
 
-<div class="container">
-    <form method="post">
-        <div class="border p-3 mt-4">
-            <h2 class="text-primary">Create Discount</h2>
-            <hr />
+<div class="container my-5">
+    <form method="post" class="form-glow">
+        <h2 class="text-glow text-center mb-4">Create Discount</h2>
+        <hr />
 
-            <div class="mb-3">
-                <label asp-for="DiscountPrice" class="form-label">Discount Price</label>
-                <input type="number" asp-for="DiscountPrice" class="form-control" />
-                <span asp-validation-for="DiscountPrice" class="text-danger"></span>
-            </div>
+        <div class="mb-3">
+            <label asp-for="DiscountPrice" class="form-label">Discount Price</label>
+            <input type="number" asp-for="DiscountPrice" class="form-control custom-input" />
+            <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+        </div>
 
-            <div class="mb-3">
-                <label asp-for="Name" class="form-label">Code</label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Code</label>
+            <input asp-for="Name" class="form-control custom-input" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Quantity</label>
-                <input  name="Quantity" type="text" class="form-control" />
-                @if (ViewData.ModelState.ContainsKey("Quantity") && ViewData.ModelState["Quantity"].Errors.Count > 0)
-                {
-                    <span class="text-danger">@ViewData.ModelState["Quantity"].Errors.First().ErrorMessage</span>
-                }
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input name="Quantity" type="text" class="form-control custom-input" />
+            @if (ViewData.ModelState.ContainsKey("Quantity") && ViewData.ModelState["Quantity"].Errors.Count > 0)
+            {
+                <span class="text-danger">@ViewData.ModelState["Quantity"].Errors.First().ErrorMessage</span>
+            }
+        </div>
 
-            <button type="submit" class="btn btn-primary">Create</button>
-            <a asp-action="Index" asp-controller="Discount" class="btn btn-secondary">Back To List</a>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-glow w-50">Create</button>
+            <a asp-action="Index" asp-controller="Discount" class="btn btn-secondary w-50 btn-rounded">Back To List</a>
         </div>
     </form>
 </div>
@@ -36,3 +36,95 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<style>
+    .btn-rounded {
+        border-radius: 30px;
+    }
+    /* Text Styling */
+    .text-glow {
+        color: #ff416c;
+        text-shadow: 0 0 8px rgba(255, 65, 108, 0.8);
+    }
+
+    /* Button Styling */
+    .btn-glow {
+        background: linear-gradient(45deg, #ff416c, #ff6a88);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 30px;
+        font-size: 18px;
+        box-shadow: 0 4px 10px rgba(255, 65, 108, 0.3);
+        transition: all 0.3s ease;
+    }
+
+        .btn-glow:hover {
+            background: linear-gradient(45deg, #ff6a88, #ff416c);
+            box-shadow: 0 6px 20px rgba(255, 65, 108, 0.5);
+            transform: scale(1.05);
+        }
+
+    /* Form Styling */
+    .form-glow {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-input {
+        border-radius: 10px;
+        padding: 10px;
+        border: 2px solid #ff416c;
+        transition: all 0.3s ease;
+    }
+
+        .custom-input:hover {
+            border-color: #ff6a88;
+            box-shadow: 0 0 10px rgba(255, 65, 108, 0.5);
+        }
+
+        .custom-input:focus {
+            border-color: #ff416c;
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 65, 108, 0.8);
+        }
+
+    /* Table Styling */
+    .table-hover tbody tr:hover {
+        background-color: #ffe6eb;
+        transition: background 0.3s ease;
+    }
+
+    .table-glow {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Container */
+    .container-glow {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    /* Pagination Styling */
+    .pagination .page-item.active .page-link {
+        background: linear-gradient(45deg, #ff416c, #ff6a88);
+        border-color: #ff416c;
+    }
+
+    .pagination .page-link {
+        color: #ff416c;
+        transition: all 0.3s ease;
+    }
+
+        .pagination .page-link:hover {
+            background: #ffe6eb;
+            color: #ff416c;
+        }
+
+</style>

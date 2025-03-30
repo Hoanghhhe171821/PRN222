@@ -17,30 +17,31 @@ namespace AssignmentPRN222.Repository
 
         public List<Discount> GetDiscounts()
         {
-            return _dbcontext.Discounts.Where(x=>!x.IsDiscounted).ToList();
+            return _dbcontext.Discounts.Where(x => !x.IsDiscounted).ToList();
         }
 
         public int getPriceDiscount(string code)
         {
             var priceDiscount = _dbcontext.Discounts.Where(x => x.Name.Equals(code)).FirstOrDefault();
-            if (priceDiscount != null && !priceDiscount.IsDiscounted ) {
+            if (priceDiscount != null && !priceDiscount.IsDiscounted)
+            {
                 return priceDiscount.DiscountPrice;
             }
             return 0;
         }
 
-        public bool updateStatus(string code)
+        public async Task updateStatus(string code)
         {
-            var discount =_dbcontext.Discounts.FirstOrDefault(x=>x.Name.Equals(code));
-            if(discount!=null && !discount.IsDiscounted)
+            var discount = _dbcontext.Discounts.FirstOrDefault(x => x.Name.Equals(code));
+            if (discount != null && discount.Quantity > 0)
             {
-                discount.IsDiscounted = true;
-                return true;
+                discount.Quantity--;
+                if (discount.Quantity <= 0)
+                {
+                    discount.IsDiscounted = true;
+                }
             }
-            else
-            {
-                return false;
-            }
+            _dbcontext.SaveChanges();
         }
     }
 }

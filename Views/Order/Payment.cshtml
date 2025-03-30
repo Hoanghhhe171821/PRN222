@@ -39,11 +39,11 @@
                     success: function (response) {
                         if (response.success) {
                             var newPrice = @ViewBag.Price - response.price;
-                            $('#totalPrice').text(newPrice.toLocaleString('vi-VN') + " VNĐ");
+                            $('#totalPrice').text(newPrice.toLocaleString('vi-VN'));
                             $('#priceInput').val(newPrice);
                             $('#discountError').hide();
                         } else {
-                            $('#totalPrice').text(originalPrice.toLocaleString('vi-VN') + " VNĐ");
+                            $('#totalPrice').text(originalPrice.toLocaleString('vi-VN'));
                             $('#priceInput').val(originalPrice);
                             $('#discountError').text(response.message).show();
                         }
