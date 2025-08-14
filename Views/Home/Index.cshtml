@@ -10,3 +10,9 @@
         alert("@TempData["Message"]");
     </script>
 }
+@if (TempData["error"] != null)
+{
+    <script>
+        alert("@TempData["error"]");
+    </script>
+}

@@ -12,4 +12,11 @@ public partial class Order
     public int PriceFrist { get; set; }
 
     public virtual ICollection<SeatsBooking> SeatsBookings { get; set; } = new List<SeatsBooking>();
+
+    public string Status { get; set; } 
+
+    // Phương thức thanh toán
+    public string PaymentMethod { get; set; }
+
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

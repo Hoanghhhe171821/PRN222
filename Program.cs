@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using AssignmentPRN222;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using AssignmentPRN222.Services.Vnpay;
 namespace AssignmentPRN222
 {
     public class Program
@@ -33,6 +34,7 @@ namespace AssignmentPRN222
             builder.Services.AddTransient<IOrder, OrderRepository>();
             builder.Services.AddSingleton<IEmailSender, FakeEmailSender>();
 
+            builder.Services.AddScoped<IVnPayService, VnPayService>();
             var app = builder.Build();
             if (!app.Environment.IsDevelopment())
             {

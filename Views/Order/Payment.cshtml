@@ -12,7 +12,7 @@
 
     <input type="hidden" name="selectedSeats" value="@ViewBag.selectedSeats" />
     <input type="hidden" name="showTimeId" value="@ViewBag.showTimeId" />
-    <input type="hidden" name="roomId" value="@ViewBag.roomId" />
+    
     <input type="hidden" name="price" value="@ViewBag.Price" id="priceInput" />
 
     <h2 class="text-center price-display">Tổng tiền: <span id="totalPrice">@($"{ViewBag.Price:N0}")</span> VNĐ</h2>
@@ -20,7 +20,16 @@
     {
         <div class="alert alert-danger">@TempData["error"]</div>
     }
-    <button type="submit" class="btn btn-glow btn-block">Xác nhận thanh toán</button>
+    <button type="submit" class="btn btn-glow btn-block">Thanh toán tại quầy</button>
+    <button id="vnPayBtn" class="btn btn-glow btn-block" type="button">Thanh toán VnPay</button>
+</form>
+<form id="vnPayForm" method="post" asp-controller="Order" asp-action="CreatePaymentUrlVnpay" style="display:none;">
+    <input type="hidden" name="Code" id="vnPayCode" />
+    <input type="hidden" name="SelectedSeats" value="@ViewBag.selectedSeats" />
+    <input type="hidden" name="ShowTimeId" value="@ViewBag.showTimeId" />
+    <input type="hidden" name="Price" id="vnPayPrice" />
+    <input type="hidden" name="PaymentMethod" value="VnPay" />
+    <input type="hidden" name="OrderType" value="order"/>
 </form>
 
 @section Scripts {
@@ -39,6 +48,7 @@
                     success: function (response) {
                         if (response.success) {
                             var newPrice = @ViewBag.Price - response.price;
+                            newPrice = Math.max(1000, Math.floor(newPrice));
                             $('#totalPrice').text(newPrice.toLocaleString('vi-VN'));
                             $('#priceInput').val(newPrice);
                             $('#discountError').hide();
@@ -47,11 +57,27 @@
                             $('#priceInput').val(originalPrice);
                             $('#discountError').text(response.message).show();
                         }
+                        // Đồng bộ dữ liệu sang form ẩn
+                            $('#vnPayCode').val($('#code').val());
+                            $('#vnPaySelectedSeats').val($('#selectedSeats').val());
+                            $('#vnPayShowTimeId').val($('#showTimeId').val());
+                            $('#vnPayPrice').val($('#priceInput').val());
                     },
                     error: function () {
                         $('#discountError').text("Không thể áp dụng mã giảm giá.").show();
                     }
                 });
+            });
+                // Khi nhấn nút VnPay, submit form ẩn
+            $('#vnPayBtn').click(function () {
+                // copy dữ liệu lần cuối trước submit
+                $('#vnPayCode').val($('#code').val());
+                $('#vnPaySelectedSeats').val($('#selectedSeats').val());
+                $('#vnPayShowTimeId').val($('#showTimeId').val());
+                $('#vnPayRoomId').val($('#roomId').val());
+                $('#vnPayPrice').val($('#priceInput').val());
+
+                $('#vnPayForm').submit();
             });
         });
     </script>

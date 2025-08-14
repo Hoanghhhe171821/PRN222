@@ -15,7 +15,7 @@ public partial class Movie
 
     public string Actor { get; set; } = null!;
 
-    public string? Images { get; set; }
+    public string Images { get; set; } = null!;
 
     public TimeOnly TimeMovie { get; set; }
 
