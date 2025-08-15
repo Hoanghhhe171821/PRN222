@@ -36,11 +36,22 @@
                                     🔧 Admin Panel
                                 </a>
                                 <ul class="dropdown-menu">
-@*                                     <li><a class="dropdown-item" asp-area="" asp-controller="Room" asp-action="Index">🏢 Manage Room</a></li> *@
+                                    @*                                     <li><a class="dropdown-item" asp-area="" asp-controller="Room" asp-action="Index">🏢 Manage Room</a></li> *@
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Movie" asp-action="Index">🎬 Manage Movie</a></li>
                                     <li><a class="dropdown-item" asp-area="" asp-controller="ShowTime" asp-action="Index">🕒 Manage ShowTime</a></li>
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Discount" asp-action="Index">💰 Manage Discount</a></li>
                                     @* <li><a class="dropdown-item" asp-area="" asp-controller="Cinema" asp-action="List">🏠 Manage Cinema</a></li> *@
+                                </ul>
+                            </li>
+                        }
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                                    🔧 User Panel
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item"  asp-controller="" asp-action="">🎬 History</a></li>
                                 </ul>
                             </li>
                         }

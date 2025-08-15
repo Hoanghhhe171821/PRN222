@@ -32,6 +32,7 @@ namespace AssignmentPRN222
             builder.Services.AddTransient<ISeatBooking, SeatBookingRepository>();
             builder.Services.AddTransient<IDiscount, DiscountRepository>();
             builder.Services.AddTransient<IOrder, OrderRepository>();
+            builder.Services.AddTransient<IUser, UserRepository>();
             builder.Services.AddSingleton<IEmailSender, FakeEmailSender>();
 
             builder.Services.AddScoped<IVnPayService, VnPayService>();

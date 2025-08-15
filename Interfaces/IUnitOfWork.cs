@@ -11,6 +11,7 @@
         ISeatBooking SeatBookings { get; }
         IDiscount Discounts { get; }
         IOrder Orders { get; }
+        IUser User { get; }
         int Complete();
     }
 }

@@ -16,9 +16,10 @@ namespace AssignmentPRN222.Repository
         public ISeatBooking SeatBookings { get; private set; }
         public IDiscount Discounts { get; private set; }
         public IOrder Orders { get; private set; }
+        public IUser User { get; private set; }
         public UnitOfWork(ProjectPrn222Context context, IProvince province,ICinema cinema,
             IMovie movie,ISeat seat,IShowTime showTime,IRoom room,ISeatBooking seatBooking,IDiscount discount,
-            IOrder order)
+            IOrder order,IUser user)
         {
             _context = context;
             Provinces = province;
@@ -30,6 +31,7 @@ namespace AssignmentPRN222.Repository
             SeatBookings = seatBooking;
             Discounts = discount;
             Orders = order;
+            User = user;
         }
 
 

@@ -1,0 +1,159 @@
+﻿@using AssignmentPRN222.Models
+@model UserProfile
+
+<div class="profile-page">
+    <div class="form-container">
+        <h2>Update Your Profile</h2>
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="FullName" class="form-control" placeholder="Full Name" readonly />
+                <label asp-for="FullName" class="form-label">Full Name</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Email" class="form-control" readonly />
+                <label asp-for="Email" class="form-label">Email</label>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Please enter your phone number." />
+                <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Address" class="form-control" placeholder="Please enter your address." />
+                <label asp-for="Address" class="form-label">Address</label>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+            <a type="button" class="btn btn-secondary" asp-controller="Profiles" asp-action="ChangePassword" >Change Password</a>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Scope CSS chỉ trong .profile-page */
+    .profile-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh; /* không full viewport */
+        padding: 2rem 0;
+        font-family: 'Arial', sans-serif;
+    }
+
+        .profile-page .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 100%;
+            animation: bling 1.5s infinite alternate;
+        }
+
+    @@keyframes bling {
+        0%
+
+    {
+        box-shadow: 0 0 20px rgba(255, 94, 120, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 0 30px rgba(255, 140, 75, 0.8);
+    }
+
+    }
+
+    .profile-page .form-floating {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-page .form-control {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #ff5e78;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+        .profile-page .form-control:focus {
+            outline: none;
+            border-color: #ff8c4b;
+            box-shadow: 0 0 10px rgba(255, 140, 75, 0.5);
+        }
+
+    .form-floating > .form-control:focus, .form-floating > .form-control:not(:placeholder-shown) {
+        padding-top: 0rem;
+        padding-bottom: 0rem;
+    }
+    .profile-page .form-label {
+        position: absolute;
+        top: 0.5rem;
+        left: 1rem;
+        font-size: 0.9rem;
+        color: #ff5e78;
+        transition: all 0.3s ease;
+    }
+
+    .profile-page .form-control:not(:placeholder-shown) + .form-label,
+    .profile-page .form-control:focus + .form-label {
+        top: -0.75rem;
+        left: 0.75rem;
+        font-size: 1rem;
+        padding: 0 0.25rem;
+        color: #ff8c4b;
+    }
+
+    .profile-page .text-danger {
+        color: #d32f2f;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+    .profile-page .btn {
+        padding: 0.75rem;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .profile-page .btn-primary {
+        background: #ff5e78;
+        color: white;
+    }
+
+        .profile-page .btn-primary:hover {
+            background: #ff8c4b;
+            transform: scale(1.05);
+        }
+
+    .profile-page .btn-secondary {
+        background: #ff8c4b;
+        color: white;
+    }
+
+        .profile-page .btn-secondary:hover {
+            background: #ff5e78;
+            transform: scale(1.05);
+        }
+
+    .profile-page h2 {
+        text-align: center;
+        color: #ff5e78;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 0 10px rgba(255, 140, 75, 0.5);
+    }
+</style>
