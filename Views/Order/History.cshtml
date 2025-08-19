@@ -1,0 +1,115 @@
+﻿@using AssignmentPRN222.Models
+@model List<Order>
+@{
+    Pager pager = new Pager();
+    int pageNo = 1;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.currentPage;
+    }
+}
+
+<div class="container my-5 p-4 shadow-lg rounded bg-light text-center">
+    <h2 class="text-glow display-4">Order History</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Movie</th>
+                    <th>Seats</th>
+                    <th>Date & Time</th>
+                    <th>Price</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    var seatsInfo = order.SeatsBookings.Select(sb => sb.Seat != null ? $"{sb.Seat.RowNumber}-{sb.Seat.CloNumber}" : "N/A");
+                    var firstShowTime = order.SeatsBookings.FirstOrDefault()?.ShowTime;
+                    var firstMovie = firstShowTime?.Movie;
+
+                    <tr class="order-row" data-id="@order.Id">
+                        <td>@order.Id</td>
+                        <td>@(firstMovie?.Name ?? "N/A")</td>
+                        <td>@string.Join(", ", seatsInfo)</td>
+                        <td>
+                            @firstShowTime?.DateShowTime.ToString("yyyy-MM-dd")<br />
+                            @firstShowTime?.StartTime.ToString(@"hh\:mm")
+                        </td>
+                        <td>@order.PriceFrist.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+                        <td>@order.PaymentMethod</td>
+                        <td>@order.Status</td>
+                        <td>@order.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <nav>
+        <ul class="pagination justify-content-center">
+            @if (pageNo > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="History" asp-route-page="@(pageNo - 1)" aria-label="Previous">&laquo;</a>
+                </li>
+            }
+            @for (int i = pager.startPage; i <= pager.endPage; i++)
+            {
+                <li class="page-item @(i == pageNo ? "active" : "")">
+                    <a class="page-link" asp-action="History" asp-route-page="@i">@i</a>
+                </li>
+            }
+            @if (pageNo < pager.totalPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="History" asp-route-page="@(pageNo + 1)" aria-label="Next">&raquo;</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".order-row").forEach(function (row) {
+            row.addEventListener("click", function () {
+                var orderId = this.getAttribute("data-id");
+                if (orderId) {
+                    window.open(`/Order/OrderDetails/${orderId}`, '_blank');
+                }
+            });
+        });
+    });
+</script>
+<style>
+    .text-glow {
+        color: #ff416c;
+        text-shadow: 0 0 10px rgba(255, 65, 108, 0.8);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #ffe6eb;
+        transition: background 0.3s ease;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #ff416c;
+        border-color: #ff416c;
+        color: white;
+    }
+
+    .pagination .page-link {
+        color: #ff416c;
+    }
+
+        .pagination .page-link:hover {
+            background-color: #ff6a88;
+            color: white;
+        }
+</style>

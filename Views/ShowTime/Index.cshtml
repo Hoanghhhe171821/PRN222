@@ -69,8 +69,8 @@
                         <td>@obj.DateShowTime.ToString("dd/MM/yyyy")</td>
                         <td>@obj.StartTime</td>
                         <td>@obj.EndTime</td>
-                        <td>$@obj.PriceA</td>
-                        <td>$@obj.PriceB</td>
+                        <td>@obj.PriceA.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+                        <td>@obj.PriceB.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
                         <td>
                             <div class="btn-group">
                                 <a asp-controller="ShowTime" asp-action="Edit" asp-route-Id="@obj.Id" class="btn btn-sm btn-info">Edit</a>

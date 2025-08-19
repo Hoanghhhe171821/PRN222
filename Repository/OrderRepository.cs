@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AssignmentPRN222.Interfaces;
 using AssignmentPRN222.Models;
+using AssignmentPRN222.Dtos;
 
 namespace AssignmentPRN222.Repository
 {
@@ -18,7 +19,10 @@ namespace AssignmentPRN222.Repository
 
         public List<Order> GetOrderByUserId(string userId)
         {
-            List<Order> order = _dbcontext.Orders.Include(x=>x.SeatsBookings).ThenInclude(st => st.ShowTime).ThenInclude(m=>m.Movie).Where(x=>x.UserId.Equals(userId)).ToList();
+            List<Order> order = _dbcontext.Orders.Include(o=>o.SeatsBookings).ThenInclude(st => st.Seat)
+                .Include(o => o.SeatsBookings).ThenInclude(st => st.ShowTime).ThenInclude(m=>m.Movie).Where(x=>x.UserId.Equals(userId))
+                .OrderByDescending(o => o.CreatedAt)
+                .ToList();
             if (order.Count > 0) { 
                 return order;
             }
@@ -27,6 +31,34 @@ namespace AssignmentPRN222.Repository
                 return null;
             }
 
+        }
+        public OrderDetailsVM GetOrderById(int orderId,string userId)
+        {
+            var order = _dbcontext.Orders
+                            .Where(x => x.Id == orderId && x.UserId == userId)
+                            .Select(o => new OrderDetailsVM
+                            {
+                                Id = o.Id,
+                                CreatedAt = o.CreatedAt,
+                                PriceFrist = o.PriceFrist,
+                                PaymentMethod = o.PaymentMethod,
+                                Status = o.Status,
+                                Seats = o.SeatsBookings.Select(sb => new SeatBookingVM
+                                {
+                                    SeatRow = sb.Seat.RowNumber,
+                                    SeatClo = sb.Seat.CloNumber,
+                                    SeatType = sb.Seat.TypeSeat,
+                                    RoomName = sb.Seat.Room.RoomName,
+                                    CinemaName = sb.Seat.Room.Cinema.Name,
+                                    ProvinceName = sb.Seat.Room.Cinema.Province.Name,
+                                    MovieName = sb.ShowTime.Movie.Name,
+                                    DateShowTime = sb.ShowTime.DateShowTime,
+                                    StartTime = sb.ShowTime.StartTime,
+                                    TicketNo = sb.ShowTime.Id
+                                }).ToList()
+                            }).FirstOrDefault();
+
+            return order;
         }
     }
 }

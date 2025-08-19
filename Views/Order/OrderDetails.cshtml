@@ -1,0 +1,120 @@
+﻿@using AssignmentPRN222.Dtos
+@model OrderDetailsVM
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="color:#dc3545;">Ticket Information</h2>
+    <div class="tickets-wrapper">
+        @foreach (var seat in Model.Seats)
+        {
+            <div class="ticket">
+                <div class="ticket-info">
+                    <h4>@seat.MovieName</h4>
+                    <p><strong>Seat:</strong> @seat.SeatRow-@seat.SeatClo - @seat.SeatType</p>
+                    <p><strong>Date:</strong> @seat.DateShowTime.ToString("ddMMM", System.Globalization.CultureInfo.InvariantCulture) - @seat.StartTime.ToString(@"hh\:mm")</p>
+                    <p><strong>Room:</strong> @seat.RoomName - <strong>Cinema:</strong> @seat.CinemaName</p>
+                    <p><strong>Province:</strong> @seat.ProvinceName</p>
+                    <p><strong>Ticket No:</strong> @seat.TicketNo</p>
+                </div>
+                <div class="ticket-qr">
+                    <div class="qr-code"></div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .tickets-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .ticket {
+        background: linear-gradient(135deg, #ff4d6d, #ff758c);
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        max-width: 360px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        position: relative;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+        .ticket::before, .ticket::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .ticket::before {
+            top: -15px;
+            left: -15px;
+        }
+
+        .ticket::after {
+            bottom: -15px;
+            right: -15px;
+        }
+
+        .ticket:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+    .ticket-info {
+        flex: 1;
+        margin-right: 15px;
+    }
+
+        .ticket-info h4 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .ticket-info p {
+            margin: 4px 0;
+            font-size: 0.9rem;
+        }
+
+    .ticket-qr {
+        width: 90px;
+        height: 90px;
+        background: #fff;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .ticket-qr .qr-code {
+            width: 70px;
+            height: 70px;
+            background: repeating-linear-gradient( 45deg, #000 0 3px, #fff 3px 6px );
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+            border-radius: 5px;
+        }
+
+        /* Optional: thêm hiệu ứng “bling” */
+        .ticket-qr::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: -10px;
+            right: -10px;
+            background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(45deg);
+        }
+</style>

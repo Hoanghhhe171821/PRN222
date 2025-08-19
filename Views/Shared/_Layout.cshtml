@@ -35,12 +35,10 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
                                     🔧 Admin Panel
                                 </a>
-                                <ul class="dropdown-menu">
-                                    @*                                     <li><a class="dropdown-item" asp-area="" asp-controller="Room" asp-action="Index">🏢 Manage Room</a></li> *@
+                                <ul class="dropdown-menu">                                   
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Movie" asp-action="Index">🎬 Manage Movie</a></li>
                                     <li><a class="dropdown-item" asp-area="" asp-controller="ShowTime" asp-action="Index">🕒 Manage ShowTime</a></li>
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Discount" asp-action="Index">💰 Manage Discount</a></li>
-                                    @* <li><a class="dropdown-item" asp-area="" asp-controller="Cinema" asp-action="List">🏠 Manage Cinema</a></li> *@
                                 </ul>
                             </li>
                         }
@@ -51,7 +49,7 @@
                                     🔧 User Panel
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item"  asp-controller="" asp-action="">🎬 History</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="History">🎬 History</a></li>
                                 </ul>
                             </li>
                         }

@@ -2,6 +2,7 @@
 using AssignmentPRN222.Models;
 using AssignmentPRN222.Models.Vnpay;
 using AssignmentPRN222.Services.Vnpay;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Transactions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -17,6 +18,44 @@ namespace AssignmentPRN222.Controllers
             _unitOfWork = unitOfWork;
             _vnPayService = vnPayService;
         }
+
+        public async Task<IActionResult> History(int page = 1, int pageSize = 5)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                TempData["error"] = "Please login!";
+                return RedirectToAction("Index", "Home");
+            }
+            var orders = _unitOfWork.Orders.GetOrderByUserId(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+            int totalItems = orders.Count();
+            Pager pager = new Pager(totalItems, page, pageSize);
+
+            var data = orders.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            this.ViewBag.Pager = pager;
+            return View(data);
+        }
+        [Route("Order/OrderDetails/{orderId:int}")]
+        public async Task<IActionResult> OrderDetails(int orderId)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                TempData["error"] = "Please login!";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var order = _unitOfWork.Orders.GetOrderById(orderId, userId);
+
+            if (order == null)
+            {
+                TempData["error"] = "Order not found or you do not have permission to view this order.";
+                return RedirectToAction("History");
+            }
+            return View(order);
+        }
+
+
         public async Task<IActionResult> Payment(string selectedSeats, int showTimeId, int roomId)
         {
             if (string.IsNullOrEmpty(selectedSeats))
@@ -67,7 +106,7 @@ namespace AssignmentPRN222.Controllers
                 {
                     if (!string.IsNullOrEmpty(code))
                     {
-                       await _unitOfWork.Discounts.updateStatus(code);
+                        await _unitOfWork.Discounts.updateStatus(code);
 
                     }
 
@@ -88,8 +127,8 @@ namespace AssignmentPRN222.Controllers
                         SeatsBookings = seatBookings,
                         UserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
                         CreatedAt = DateTime.Now,
-                        PaymentMethod="Thanh toán tại quầy",
-                        Status = "Pending"                        
+                        PaymentMethod = "Thanh toán tại quầy",
+                        Status = "Pending"
                     };
                     _unitOfWork.ShowTimes.UpdateisBooked(showTimeId);
                     _unitOfWork.Orders.Create(order);
@@ -108,6 +147,12 @@ namespace AssignmentPRN222.Controllers
         [HttpPost]
         public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
         {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                TempData["error"] = "Please login!";
+                return RedirectToAction("Index", "Home");
+            }
             var url = _vnPayService.CreatePaymentUrl(model, HttpContext);
 
             return Redirect(url);
@@ -176,7 +221,7 @@ namespace AssignmentPRN222.Controllers
                     });
                 }
             }
-        }
+        }       
 
     }
 }

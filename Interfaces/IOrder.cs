@@ -1,4 +1,5 @@
-﻿using AssignmentPRN222.Models;
+﻿using AssignmentPRN222.Dtos;
+using AssignmentPRN222.Models;
 
 namespace AssignmentPRN222.Interfaces
 {
@@ -6,5 +7,6 @@ namespace AssignmentPRN222.Interfaces
     {
         void Create(Order order);
         List<Order> GetOrderByUserId(string userId);
+        OrderDetailsVM GetOrderById(int orderId, string userId);
     }
 }
