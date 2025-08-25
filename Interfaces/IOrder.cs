@@ -6,7 +6,7 @@ namespace AssignmentPRN222.Interfaces
     public interface IOrder
     {
         void Create(Order order);
-        List<Order> GetOrderByUserId(string userId);
-        OrderDetailsVM GetOrderById(int orderId, string userId);
+        Task<List<Order>> GetOrderByUserId(string userId);
+        Task<OrderDetailsVM> GetOrderById(int orderId, string userId);
     }
 }

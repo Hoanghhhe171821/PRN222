@@ -40,13 +40,25 @@
                         <td>
                             <div class="btn-group">
                                 <a asp-action="Edit" asp-route-Id="@obj.Id" class="btn btn-sm btn-info">Edit</a>
-                                <form method="post" asp-action="Delete">
-                                    <input type="hidden" name="id" value="@obj.Id" />
-                                    <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">
-                                        Delete
-                                    </button>
-                                </form>
+                                @if (obj.IsActivated)
+                                {
+                                    <form method="post" asp-action="Delete">
+                                        <input type="hidden" name="id" value="@obj.Id" />
+                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">
+                                            Delete
+                                        </button>
+                                    </form>
+                                }else{
+                                    <form method="post" asp-action="UnDelete">
+                                        <input type="hidden" name="id" value="@obj.Id" />
+                                        <button type="submit" class="btn btn-sm btn-UnDelete"
+                                                onclick="return confirm('Bạn có chắc chắn muốn khôi phục không?');">
+                                            UnDelete
+                                        </button>
+                                    </form>
+                                }
+
                             </div>
                         </td>
                     </tr>
@@ -166,4 +178,9 @@
             color: #ff416c;
         }
 
+    .btn-UnDelete {
+        color: #000;
+        background-color: lightgreen;
+        border-color: lightgreen;
+    }
 </style>

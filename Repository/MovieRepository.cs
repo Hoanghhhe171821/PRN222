@@ -24,6 +24,12 @@ namespace AssignmentPRN222.Repository
             movie.IsDelete = true;
             _dbcontext.Update(movie);
         }
+        public void UnDeleteSoft(int id)
+        {
+            var movie = _dbcontext.Movies.SingleOrDefault(x => x.Id == id);
+            movie.IsDelete = false;
+            _dbcontext.Update(movie);
+        }
 
         public List<int> getMovieByDayandCinema(DateOnly date, int cinemaid)
         {
@@ -39,6 +45,10 @@ namespace AssignmentPRN222.Repository
         public List<Movie> getMovieList(string text)
         {
            return  _dbcontext.Movies.Where(x=>!x.IsDelete && x.Name.Contains(text)).ToList();
+        }
+        public List<Movie> getMovieListByAdmin(string text)
+        {
+            return _dbcontext.Movies.Where(x => x.Name.Contains(text)).ToList();
         }
 
         public void Update(Movie movie)

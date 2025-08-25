@@ -73,8 +73,20 @@ namespace AssignmentPRN222.Repository
             {
                 return false;
             }
-
-            _dbcontext.Discounts.Remove(discount);
+            discount.IsActivated = false;
+            _dbcontext.Discounts.Update(discount);
+            await _dbcontext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> UnDelete(int id)
+        {
+            var discount = await _dbcontext.Discounts.FindAsync(id);
+            if (discount == null)
+            {
+                return false;
+            }
+            discount.IsActivated = true;
+            _dbcontext.Discounts.Update(discount);
             await _dbcontext.SaveChangesAsync();
             return true;
         }

@@ -18,8 +18,8 @@ namespace AssignmentPRN222.Controllers
             _unitOfWork = unitOfWork;
             _vnPayService = vnPayService;
         }
-
-        public async Task<IActionResult> History(int page = 1, int pageSize = 5)
+        [HttpGet]
+        public async Task<IActionResult> History(int page = 1, int pageSize = 5, string startDate = "", string endDate = "")
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
@@ -27,8 +27,56 @@ namespace AssignmentPRN222.Controllers
                 TempData["error"] = "Please login!";
                 return RedirectToAction("Index", "Home");
             }
-            var orders = _unitOfWork.Orders.GetOrderByUserId(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
-            int totalItems = orders.Count();
+
+            var ordersTask = _unitOfWork.Orders.GetOrderByUserId(userId);
+            var orders = await ordersTask;  
+
+            DateTime? start = null;
+            DateTime? end = null;
+
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                try
+                {
+                    start = DateTime.Parse(startDate);
+                }
+                catch
+                {
+                    TempData["error"] = "Invalid start date format. Please use the correct format (MM/dd/yyyy).";
+                    return RedirectToAction("History");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                try
+                {
+                    end = DateTime.Parse(endDate);
+                }
+                catch
+                {
+                    TempData["error"] = "Invalid end date format. Please use the correct format (MM/dd/yyyy).";
+                    return RedirectToAction("History");
+                }
+            }
+
+            if (start.HasValue && end.HasValue && start.Value > end.Value)
+            {
+                TempData["error"] = "Start date cannot be later than end date.";
+                return RedirectToAction("History");
+            }
+
+            if (start.HasValue)
+            {
+                orders = orders.Where(o => o.CreatedAt >= start.Value).ToList();
+            }
+
+            if (end.HasValue)
+            {
+                orders = orders.Where(o => o.CreatedAt <= end.Value).ToList();
+            }
+
+            int totalItems = orders.Count;
             Pager pager = new Pager(totalItems, page, pageSize);
 
             var data = orders.Skip((page - 1) * pageSize).Take(pageSize).ToList();
@@ -45,7 +93,8 @@ namespace AssignmentPRN222.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var order = _unitOfWork.Orders.GetOrderById(orderId, userId);
+            var order =await _unitOfWork.Orders.GetOrderById(orderId, userId);
+            
 
             if (order == null)
             {

@@ -6,7 +6,7 @@
     <h2 class="text-glow display-4 text-center">Edit Movie</h2>
     <hr />
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label asp-for="Name" class="form-label fw-bold">Movie Name</label>
             <input asp-for="Name" type="text" class="form-control custom-input" />
@@ -25,8 +25,12 @@
         </div>
 
         <div class="mb-3">
-            <label asp-for="Images" class="form-label fw-bold">Image URL</label>
-            <input asp-for="Images" class="form-control custom-input" />
+            <label class="form-label fw-bold">Image</label>
+            <div class="mb-2">
+                <img src="@Model.Images" alt="Current Image" class="img-thumbnail" style="max-height:150px;" />
+            </div>
+            <input type="file" name="imagesFile" class="form-control" />
+            <span class="text-muted">Nếu không chọn file, sẽ giữ ảnh hiện tại.</span>
             <span asp-validation-for="Images" class="text-danger"></span>
         </div>
 

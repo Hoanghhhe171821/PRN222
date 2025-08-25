@@ -22,10 +22,27 @@ namespace AssignmentPRN222.Repository
             _dbcontext.ShowTime.Remove(showTime);
         }
 
-        public List<ShowTime> GetAll(int movieId,int cinemaId,int roomId)
+        public List<ShowTime> GetAll(int movieId, int cinemaId, int roomId)
         {
-            return _dbcontext.ShowTime.Where(x=>(x.MovieId==movieId||movieId==0)&&(x.CinemaId==cinemaId||cinemaId==0)&&(x.RoomId==roomId||roomId==0))
-                .Include(x => x.Movie).OrderByDescending(x=>x.DateShowTime).ToList();
+            var now = DateTime.Now;
+
+            var query = _dbcontext.ShowTime
+                .Where(x => (x.MovieId == movieId || movieId == 0) &&
+                            (x.CinemaId == cinemaId || cinemaId == 0) &&
+                            (x.RoomId == roomId || roomId == 0))
+                .Include(x => x.Movie);
+
+            // Bước 2: xử lý ngoài memory
+            return query
+                .AsEnumerable()
+                .OrderBy(x =>
+                {
+                    var showDateTime = x.DateShowTime.ToDateTime(TimeOnly.MinValue).Add(x.StartTime);
+                    return showDateTime < now ? 1 : 0; // chưa qua = 0, đã qua = 1
+                })
+                .ThenBy(x => x.DateShowTime)
+                .ThenBy(x => x.StartTime)
+                .ToList();
         }
 
         public List<ShowTime> GetShowTimeByDateandCinemaandMovie(DateOnly date, int cinemaid, int movieId)
@@ -56,30 +73,27 @@ namespace AssignmentPRN222.Repository
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public bool IsSetting(int showTimeId,DateOnly dateShow, TimeSpan timeStart, TimeSpan timeEnd, int RoomId)
+        public bool IsSetting(int showTimeId, DateOnly dateShow, TimeSpan timeStart, TimeSpan timeEnd, int roomId)
         {
-            //bool check = true;
-            //var listShowtime = _dbcontext.ShowTime.Where(x => x.RoomId == RoomId && x.DateShowTime == dateShow &&x.Id != showTimeId).ToList();
-            //foreach (var item in listShowtime)
-            //{
-            //    if (timeStart <= item.StartTime && timeEnd >= item.StartTime)
-            //    {
-            //        check = false;
-            //        break;
-            //    }else if (timeEnd >= item.EndTime && timeStart <= item.EndTime)
-            //    {
-            //        check = false; break;
-            //    }else if(timeStart>=item.StartTime && timeStart <= item.EndTime&&timeEnd>=item.StartTime&&timeEnd<=item.EndTime)
-            //    {
-            //        check = false; break;
-            //    }
+            var listShowtime = _dbcontext.ShowTime
+                .Where(x => x.RoomId == roomId
+                         && x.DateShowTime == dateShow
+                         && x.Id != showTimeId)
+                .ToList();
 
-            //}
-            //return check;
-            return true;
+            foreach (var item in listShowtime)
+            {
+                // nếu KHÔNG kết thúc trước hoặc sau hẳn -> nghĩa là giao nhau
+                if (!(timeEnd <= item.StartTime || timeStart >= item.EndTime))
+                {
+                    return false; // trùng lịch
+                }
+            }
+
+            return true; // không trùng
         }
 
-  
+
 
         public void UpdateisBooked(int showTimeId)
         {

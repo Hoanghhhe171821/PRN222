@@ -17,24 +17,18 @@ namespace AssignmentPRN222.Repository
             _dbcontext.Orders.Add(order);
         }
 
-        public List<Order> GetOrderByUserId(string userId)
+        public async Task<List<Order>> GetOrderByUserId(string userId)
         {
-            List<Order> order = _dbcontext.Orders.Include(o=>o.SeatsBookings).ThenInclude(st => st.Seat)
-                .Include(o => o.SeatsBookings).ThenInclude(st => st.ShowTime).ThenInclude(m=>m.Movie).Where(x=>x.UserId.Equals(userId))
+            return await _dbcontext.Orders
+                .Include(o => o.SeatsBookings).ThenInclude(st => st.Seat)
+                .Include(o => o.SeatsBookings).ThenInclude(st => st.ShowTime).ThenInclude(m => m.Movie)
+                .Where(x => x.UserId == userId)
                 .OrderByDescending(o => o.CreatedAt)
-                .ToList();
-            if (order.Count > 0) { 
-                return order;
-            }
-            else
-            {
-                return null;
-            }
-
+                .ToListAsync();
         }
-        public OrderDetailsVM GetOrderById(int orderId,string userId)
+        public async Task<OrderDetailsVM> GetOrderById(int orderId,string userId)
         {
-            var order = _dbcontext.Orders
+            var order = await _dbcontext.Orders
                             .Where(x => x.Id == orderId && x.UserId == userId)
                             .Select(o => new OrderDetailsVM
                             {
@@ -56,7 +50,7 @@ namespace AssignmentPRN222.Repository
                                     StartTime = sb.ShowTime.StartTime,
                                     TicketNo = sb.ShowTime.Id
                                 }).ToList()
-                            }).FirstOrDefault();
+                            }).FirstOrDefaultAsync();
 
             return order;
         }

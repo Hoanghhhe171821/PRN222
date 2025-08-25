@@ -59,7 +59,11 @@
                         <td>
                             <div class="btn-group">
                                 <a asp-controller="Movie" asp-action="Edit" asp-route-Id="@obj.Id" class="btn btn-sm btn-info">Edit</a>
-                                <a asp-controller="Movie" asp-action="Delete" asp-route-Id="@obj.Id" class="btn btn-sm btn-danger">Delete</a>
+                                @if(obj.IsDelete){
+                                    <a asp-controller="Movie" asp-action="UnDelete" asp-route-Id="@obj.Id" class="btn btn-sm btn-UnDelete">UnDelete</a>
+                                }else{
+                                    <a asp-controller="Movie" asp-action="Delete" asp-route-Id="@obj.Id" class="btn btn-sm btn-danger">Delete</a>
+                                }
                             </div>
                         </td>
                     </tr>
@@ -135,4 +139,10 @@
             outline: none;
             box-shadow: 0 0 15px rgba(255, 65, 108, 0.8);
         }
+
+    .btn-UnDelete {
+        color: #000;
+        background-color: lightgreen;
+        border-color: lightgreen;
+    }
 </style>

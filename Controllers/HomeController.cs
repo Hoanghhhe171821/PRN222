@@ -6,6 +6,7 @@ namespace AssignmentPRN222.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.Message = TempData["Message"];
             return View();
         }
     }

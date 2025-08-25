@@ -12,7 +12,25 @@
 
 <div class="container my-5 p-4 shadow-lg rounded bg-light text-center">
     <h2 class="text-glow display-4">Order History</h2>
+    @using Microsoft.AspNetCore.Http  
 
+    <div class="filter-form mb-4">  
+       <form method="get" asp-action="History" class="row g-3 align-items-center justify-content-center">  
+           <div class="col-auto">  
+               <label class="form-label fw-bold text-glow">Start Date:</label>  
+               <input type="date" name="startDate" value="@Context.Request.Query["startDate"]" class="form-control rounded-pill shadow-sm" />  
+           </div>  
+           <div class="col-auto">  
+               <label class="form-label fw-bold text-glow">End Date:</label>  
+               <input type="date" name="endDate" value="@Context.Request.Query["endDate"]" class="form-control rounded-pill shadow-sm" />  
+           </div>  
+           <div class="col-auto mt-4">  
+               <button type="submit" class="btn btn-gradient rounded-pill px-4 shadow">  
+                   Search  
+               </button>  
+           </div>  
+       </form>  
+    </div>
     <div class="table-responsive">
         <table class="table table-hover table-bordered">
             <thead class="table-dark">
@@ -112,4 +130,44 @@
             background-color: #ff6a88;
             color: white;
         }
+
+    .filter-form {
+        background: #fff;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-gradient {
+        background: linear-gradient(45deg, #ff416c, #ff6a88);
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-gradient:hover {
+            background: linear-gradient(45deg, #ff6a88, #ff416c);
+            transform: translateY(-2px);
+        }
+
+    .form-control {
+        border: 2px solid #ffe6eb;
+    }
+
+        .form-control:focus {
+            border-color: #ff416c;
+            box-shadow: 0 0 8px rgba(255, 65, 108, 0.5);
+        }   
 </style>
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert("@TempData["Message"]");
+    </script>
+}
+@if (TempData["error"] != null)
+{
+    <script>
+        alert("@TempData["error"]");
+    </script>
+}

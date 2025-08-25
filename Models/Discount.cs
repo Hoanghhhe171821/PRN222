@@ -12,5 +12,7 @@ public partial class Discount
     public int DiscountPrice { get; set; }
 
     public bool IsDiscounted { get; set; }
+    public bool IsActivated { get; set; } = true;
+
     public int? Quantity { get; set; }
 }

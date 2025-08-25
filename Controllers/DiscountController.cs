@@ -1,5 +1,6 @@
 ﻿using AssignmentPRN222.Interfaces;
 using AssignmentPRN222.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssignmentPRN222.Controllers
@@ -12,6 +13,7 @@ namespace AssignmentPRN222.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+        [Authorize(Roles = "admin")]
         public IActionResult Index(int pageSize = 5, int page = 1)
         {
             var allitems = _unitOfWork.Discounts.GetDiscounts();
@@ -21,11 +23,12 @@ namespace AssignmentPRN222.Controllers
             this.ViewBag.Pager = pager;
             return View(listDiscount);
         }
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Discount discount, string Quantity, string Name)
         {
@@ -83,6 +86,7 @@ namespace AssignmentPRN222.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var discount = await _unitOfWork.Discounts.GetById(id);
@@ -92,6 +96,7 @@ namespace AssignmentPRN222.Controllers
             }
             return View(discount);
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Discount discount)
         {
@@ -110,11 +115,26 @@ namespace AssignmentPRN222.Controllers
             TempData["Message"] = "Discount updated successfully!";
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             bool isDeleted = await _unitOfWork.Discounts.Delete(id);
+            if (!isDeleted)
+            {
+                TempData["error"] = "Không tìm thấy mã giảm giá!";
+            }
+            else
+            {
+                TempData["success"] = "Xóa mã giảm giá thành công!";
+            }
+            return RedirectToAction("Index");
+        }
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public async Task<IActionResult> UnDelete(int id)
+        {
+            bool isDeleted = await _unitOfWork.Discounts.UnDelete(id);
             if (!isDeleted)
             {
                 TempData["error"] = "Không tìm thấy mã giảm giá!";

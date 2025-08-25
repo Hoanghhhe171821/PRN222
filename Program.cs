@@ -1,4 +1,4 @@
-using AssignmentPRN222.Interfaces;
+﻿using AssignmentPRN222.Interfaces;
 using AssignmentPRN222.Models;
 using AssignmentPRN222.Repository;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using AssignmentPRN222;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using AssignmentPRN222.Services.Vnpay;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 namespace AssignmentPRN222
 {
     public class Program
@@ -17,12 +18,12 @@ namespace AssignmentPRN222
             builder.Services.AddDbContext<ProjectPrn222Context>(options =>
                         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddIdentity<UserProfile, IdentityRole>()
-    .AddEntityFrameworkStores<ProjectPrn222Context>()
-    .AddDefaultTokenProviders();
+                                .AddEntityFrameworkStores<ProjectPrn222Context>()
+                                .AddDefaultTokenProviders();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
-            builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddTransient<IProvince, ProvinceRepository>();
             builder.Services.AddTransient<ICinema, CinemaRepository>();
             builder.Services.AddTransient<IMovie, MovieRepository>();
@@ -31,7 +32,7 @@ namespace AssignmentPRN222
             builder.Services.AddTransient<IShowTime, ShowTimeRepository>();
             builder.Services.AddTransient<ISeatBooking, SeatBookingRepository>();
             builder.Services.AddTransient<IDiscount, DiscountRepository>();
-            builder.Services.AddTransient<IOrder, OrderRepository>();
+            builder.Services.AddScoped<IOrder, OrderRepository>();
             builder.Services.AddTransient<IUser, UserRepository>();
             builder.Services.AddSingleton<IEmailSender, FakeEmailSender>();
 
@@ -48,14 +49,24 @@ namespace AssignmentPRN222
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseStatusCodePages(async context =>
+            {
+                var response = context.HttpContext.Response;
+                if (response.StatusCode == 404)
+                {
+                    var tempData = context.HttpContext.RequestServices
+                                    .GetService<ITempDataDictionaryFactory>()
+                                    .GetTempData(context.HttpContext);
+                    tempData["Message"] = "Trang bạn truy cập không tồn tại";
+                    response.Redirect("/Home/Index");
+                }
+            });
             app.UseAuthorization();
             app.MapRazorPages();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=MovieList}/{action=Index}/{id?}");
 
-            //test
             app.Run();
         }
     }
